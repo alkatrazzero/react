@@ -10,8 +10,6 @@ const App = () => {
             <Header/>
             <Nav/>
             <Profile/>
-            <div></div>
-
         </div>
 
     );
