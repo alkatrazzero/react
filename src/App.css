@@ -1,28 +1,13 @@
-.app-wrapper{
+.app-wrapper {
   display: grid;
   grid-template-areas:
-"h h"
-"n c";
+    "h h"
+    "n c";
   grid-template-rows: 60px 1fr;
   grid-template-columns: 2fr 10fr;
   grid-gap: 20px;
   width: 1200px;
   margin: 0 auto;
-}
-.header{
-  grid-area: h;
-  background-color: yellow;
-}
-.header img{
-  width: 40px;
-}
-.Nav{
-grid-area: n;
-  background-color: green;
-}
-.Profile{
-  background-color: aquamarine;
-grid-area: c;
 }
 
 /*.content img{*/
