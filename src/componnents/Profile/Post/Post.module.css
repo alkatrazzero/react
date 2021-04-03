@@ -1,0 +1,12 @@
+.Profile {
+  background-color: rgb(131, 255, 127);
+  grid-area: c;
+}
+.item {
+  color: tomato;
+}
+.item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
+}
