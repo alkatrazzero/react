@@ -1,10 +1,6 @@
 .Nav {
   grid-area: n;
-  background-color: green;
 }
 .item {
-  color: white;
-}
-.item.message {
-  color: gold;
+  color: blue;
 }
