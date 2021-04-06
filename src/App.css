@@ -5,9 +5,14 @@
     "n c";
   grid-template-rows: 60px 1fr;
   grid-template-columns: 2fr 10fr;
-  grid-gap: 20px;
-  width: 1200px;
+  grid-gap: 15px;
+  width: 1100px;
   margin: 0 auto;
+  padding-top: 10px;
+}
+.all-wrapper-content {
+  background-color: rgb(131, 255, 127);
+  grid-area: c;
 }
 
 /*.content img{*/

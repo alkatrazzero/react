@@ -7,23 +7,23 @@ import Nav from "./componnents/Nav/Nav";
 import News from "./componnents/Nav/News/News";
 import Profile from "./componnents/Nav/Profile/Profile";
 import Settings from "./componnents/Nav/Settings/Settings";
+import { BrowserRouter, Route } from "react-router-dom";
 
 const App = () => {
   return (
-    // <BrowserRouter>
-    <div className="app-wrapper">
-      <Header />
-      <Nav />
-      <div class="all-wrapper-content">
-        <Messages />
-        {/* <Route path="/Profile" component={Profile} />
-        <Route path="/Messages" component={Messages} />
-        <Route path="/Music" component={Music} />
-        <Route path="/News" component={News} />
-        <Route path="/Setting" component={Settings} /> */}
+    <BrowserRouter>
+      <div className="app-wrapper">
+        <Header />
+        <Nav />
+        <div class="all-wrapper-content">
+          <Route path="/Profile" component={Profile} />
+          <Route path="/Messages" component={Messages} />
+          <Route path="/Music" component={Music} />
+          <Route path="/News" component={News} />
+          <Route path="/Setting" component={Settings} />
+        </div>
       </div>
-    </div>
-    /* </BrowserRouter> */
+    </BrowserRouter>
   );
 };
 export default App;

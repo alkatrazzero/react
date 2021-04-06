@@ -1,19 +1,26 @@
 import React from "react";
-import classes from "../myPosts/MyPosts.module.css";
-import Post from "../Post/Post";
+import s from "../myPosts/MyPosts.module.css";
+import Post from "./Post/Post";
 const MyPosts = () => {
+  let posts = [
+    { id: 1, message: "Hi, how are you", like: "15" },
+    { id: 2, message: "It is my first message", like: "30" },
+  ];
+  let postsElements = posts.map((post) => (
+    <Post message={post.message} like={post.like}></Post>
+  ));
   return (
-    <div className={classes.Profile}>
-      <div>My post</div>
+    <div className={s.postsBlock}>
+      <h3> My post</h3>
       <div>
-        <textarea></textarea>
-        <button>add post</button>
+        <div>
+          <textarea></textarea>
+        </div>
+        <div>
+          <button>add post</button>
+        </div>
       </div>
-      <Post message="Hi, how are you?" like="15"></Post>
-      <Post message="It is my first message " like="30"></Post>
-      <Post></Post>
-      <Post></Post>
-      <Post></Post>
+      <div className={s.posts}>{postsElements}</div>
     </div>
   );
 };

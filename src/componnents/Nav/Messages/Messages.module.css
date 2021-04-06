@@ -1,4 +1,25 @@
-.Messages {
-  /* background-color: rgb(131, 255, 127); */
-  grid-area: c;
+.dialogs {
+  display: grid;
+
+  grid-template-columns: 20fr 20fr;
+}
+.dialogsItems {
+  padding: 10px;
+  color: white;
+}
+.dialogsItems .active {
+  color: gold;
+}
+.dialogsItems .dialog {
+}
+.messages {
+  padding: 10px;
+}
+.message {
+}
+.activeLink {
+  color: orange;
+}
+.dialog {
+  color: orangered;
 }
