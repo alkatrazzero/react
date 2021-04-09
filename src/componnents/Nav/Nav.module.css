@@ -1,15 +1,26 @@
+.friendsSiteBar a {
+  color: red;
+  text-decoration: none;
+  font-size: 23px;
+}
 .Nav {
   grid-area: n;
   padding: 20px;
   background-color: yellowgreen;
 }
-
-.item {
-  color: white;
+.activeLink {
+  color: gold;
 }
 .item a {
   text-decoration: none;
 }
-.activeLink {
-  color: gold;
+.settings {
+}
+.FriendsItem a {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+}
+.friendsSiteBar {
+  padding-top: 60px;
 }

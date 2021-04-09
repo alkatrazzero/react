@@ -1,8 +1,8 @@
 import React from "react";
-import classes from "../Settings/Settings.module.css";
+import s from "../Settings/Settings.module.css";
 const Settings = (props) => {
   return (
-    <div>
+    <div className = {s.settings}>
       <div>Settings</div>
     </div>
   );

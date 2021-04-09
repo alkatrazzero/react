@@ -1,25 +1,32 @@
 .dialogs {
   display: grid;
-
+  grid-template-areas:
+    "d m"
+    "d t";
   grid-template-columns: 20fr 20fr;
 }
 .dialogsItems {
   padding: 10px;
+
   color: white;
 }
-.dialogsItems .active {
-  color: gold;
+.dialogsItems a {
+  text-decoration: none;
+  grid-area: d;
 }
+
 .dialogsItems .dialog {
 }
-.messages {
-  padding: 10px;
-}
+
 .message {
+  grid-area: m;
 }
 .activeLink {
   color: orange;
 }
 .dialog {
   color: orangered;
+}
+.textButton {
+  grid-area: t;
 }

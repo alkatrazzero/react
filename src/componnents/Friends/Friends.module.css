@@ -1,0 +1,6 @@
+.friends{
+  
+    display: grid;
+  
+    grid-template-columns: 20fr 20fr;
+}
