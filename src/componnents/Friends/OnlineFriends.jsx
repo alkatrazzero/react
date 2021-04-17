@@ -4,7 +4,11 @@ const OnlineFriends = (props) => {
   return (
     <div>
       <div>
-          <img src = " sad"/>{props.name}
+        <img
+          className={s.dialogImg}
+          src="https://www.blast.hk/attachments/64805/"
+        />
+        {props.name}
       </div>
     </div>
   );

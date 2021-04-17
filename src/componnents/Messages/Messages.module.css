@@ -30,3 +30,6 @@
 .textButton {
   grid-area: t;
 }
+.dialogImg {
+  width: 40px;
+}

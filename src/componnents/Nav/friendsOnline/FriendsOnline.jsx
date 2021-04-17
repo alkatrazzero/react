@@ -1,11 +1,14 @@
 import React from "react";
-import classes from "../Nav.module.css";
+import s from "../Nav.module.css";
 const FriendsOnline = (props) => {
   return (
     <div>
       <a href="">{props.name} </a>
       <div>
-        <img src=" sad" />
+        <img
+          className={s.friendsOnline}
+          src=" https://www.blast.hk/attachments/64805/"
+        />
       </div>
     </div>
   );

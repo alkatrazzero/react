@@ -5,7 +5,6 @@ import FriendsOnline from "./friendsOnline/FriendsOnline";
 import NavRender from "./friendsOnline/NavRender";
 import FriendsRender from "./friendsOnline/FriendsRender";
 const Nav = (props) => {
-  console.log(props);
   let friendsOnline = props.state.onlineFriends.map((dialog) => (
     <FriendsOnline name={dialog.name} id={dialog.id} />
   ));

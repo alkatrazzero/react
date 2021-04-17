@@ -1,6 +1,8 @@
-.friends{
-  
-    display: grid;
-  
-    grid-template-columns: 20fr 20fr;
+.friends {
+  display: grid;
+
+  grid-template-columns: 20fr 20fr;
+}
+.dialogImg {
+  width: 25px;
 }
