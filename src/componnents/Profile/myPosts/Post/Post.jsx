@@ -7,7 +7,7 @@ const Post = (props) => {
       {props.message}
       <div>
         <span>
-          <button>{props.like}</button>
+          <button onClick>{props.like}</button>
         </span>
       </div>
     </div>
