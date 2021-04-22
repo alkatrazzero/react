@@ -22,6 +22,6 @@ const MessagesContainer = (props) => {
       messageData={state.messagesPage.messageData}
       newMessageText={state.messagesPage.newMessageText}
     />
-  );
+  );сч
 };
 export default MessagesContainer;
