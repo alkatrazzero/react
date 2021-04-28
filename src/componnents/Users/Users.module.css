@@ -1,0 +1,10 @@
+.users {
+  display: grid;
+  grid-template-areas:
+    "d m"
+    "d t";
+  grid-template-columns: 10fr 10fr;
+}
+.avatar {
+  width: 100px;
+}

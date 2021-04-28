@@ -6,13 +6,13 @@ import NavRender from "./friendsOnline/NavRender";
 import FriendsRender from "./friendsOnline/FriendsRender";
 const Nav = (props) => {
   let friendsOnline = props.state.onlineFriends.map((dialog) => (
-    <FriendsOnline name={dialog.name} id={dialog.id} />
+    <FriendsOnline name={dialog.name} key={dialog.id} id={dialog.id} />
   ));
   let navRender = props.sitebar.mainSiteBar.map((s) => (
-    <NavRender adress={s.adress} name={s.name} />
+    <NavRender adress={s.adress} key={s.id} name={s.name} />
   ));
   let friendsSiteBar = props.sitebar.friendsSiteBar.map((f) => (
-    <FriendsRender adress={f.adress} name={f.name} />
+    <FriendsRender adress={f.adress} key={f.id} name={f.name} />
   ));
   return (
     <nav className={classes.Nav}>

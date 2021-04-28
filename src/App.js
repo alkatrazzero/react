@@ -9,6 +9,7 @@ import Profile from "./componnents/Profile/Profile";
 import Settings from "./componnents/Settings/Settings";
 import { Route } from "react-router-dom";
 import Friends from "./componnents/Friends/Friends";
+import UsersContainer from "./componnents/Users/UsersContainer";
 
 const App = (props) => {
   return (
@@ -26,6 +27,7 @@ const App = (props) => {
           path="/Friends"
           render={() => <Friends state={props.state.friends} />}
         />
+        <Route path="/Users" render={() => <UsersContainer />} />
       </div>
     </div>
   );

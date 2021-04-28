@@ -5,6 +5,7 @@ let initialState = {
     { id: 3, name: "News ", adress: "/News" },
     { id: 4, name: "Music", adress: "/Music" },
     { id: 5, name: "Settings", adress: "/Settings" },
+    { id: 6, name: "Users", adress: "/Users" },
   ],
   friendsSiteBar: [{ id: 1, name: "My friends", adress: "/Friends" }],
 };
