@@ -45,22 +45,22 @@ const usersReduser = (state = initialState, action) => {
       return state;
   }
 };
-export const followAC = (userId) => {
+export const follow = (userId) => {
   return { type: FOLLOW, userId };
 };
-export const unFollowAC = (userId) => {
+export const unFollow = (userId) => {
   return { type: UNFOLLOW, userId };
 };
-export const setUsersAC = (users) => {
+export const setUsers = (users) => {
   return { type: SET_USERS, users };
 };
-export const setCurrentPageAC = (currentPage) => {
+export const setCurrentPage = (currentPage) => {
   return { type: SET_CURRENT_PAGE, currentPage };
 };
-export const setTotalUsersCountAC = (totalCount) => {
+export const setTotalUsersCount = (totalCount) => {
   return { type: SET_TOTAL_USERS_COUNT, totalCount };
 };
-export const toggleIsFetchingAC = (isFetching) => {
+export const toggleIsFetching = (isFetching) => {
   return { type: TOGGLE_IS_FETCHING, isFetching };
 };
 
