@@ -5,11 +5,11 @@ import MessagesContainer from "./componnents/Messages/MessagesContainer";
 import Music from "./componnents/Music/Music";
 import Nav from "./componnents/Nav/Nav";
 import News from "./componnents/News/News";
-import Profile from "./componnents/Profile/Profile";
 import Settings from "./componnents/Settings/Settings";
 import { Route } from "react-router-dom";
 import Friends from "./componnents/Friends/Friends";
 import UsersContainer from "./componnents/users/UsersContainer";
+import ProfileContainer from "./componnents/Profile/ProfileContainer";
 
 const App = (props) => {
   return (
@@ -18,7 +18,7 @@ const App = (props) => {
       <Nav state={props.state.friends} sitebar={props.state.sitebar} />
       <div className="all-wrapper-content">
         <Route path="/Messages" render={() => <MessagesContainer />} />
-        <Route path="/Profile" render={() => <Profile />} />
+        <Route path="/Profile" render={() => <ProfileContainer />} />
 
         <Route path="/Music" render={() => <Music />} />
         <Route path="/News" render={() => <News />} />
