@@ -10,15 +10,16 @@ import { Route } from "react-router-dom";
 import Friends from "./componnents/Friends/Friends";
 import UsersContainer from "./componnents/users/UsersContainer";
 import ProfileContainer from "./componnents/Profile/ProfileContainer";
+import HeaderContainer from "./componnents/Header/HeaderContainet";
 
 const App = (props) => {
   return (
     <div className="app-wrapper">
-      <Header />
+      <HeaderContainer />
       <Nav state={props.state.friends} sitebar={props.state.sitebar} />
       <div className="all-wrapper-content">
         <Route path="/Messages" render={() => <MessagesContainer />} />
-        <Route path="/Profile" render={() => <ProfileContainer />} />
+        <Route path="/Profile/:userId?" render={() => <ProfileContainer />} />
 
         <Route path="/Music" render={() => <Music />} />
         <Route path="/News" render={() => <News />} />
