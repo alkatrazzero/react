@@ -10,6 +10,7 @@ import Preloader from "../common/Preloader";
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
+    let page = this.props.id;
     this.props.toggleIsFetching(true);
     // this.props.toggleIsFetching(true);
     let userId = this.props.match.params.userId;
@@ -35,7 +36,6 @@ class ProfileContainer extends React.Component {
 }
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
-  // id: state.auth.currentProfile.userId,
 });
 let WithUrlDataContainerComponent = withRouter(ProfileContainer);
 export default connect(mapStateToProps, {
