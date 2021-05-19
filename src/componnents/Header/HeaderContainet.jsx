@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import { setAuthUserData, setCurrentProfile } from "../../redux/authReduser";
 import Header from "./Header";
 import "./Header.module.css";
-import { getAuth } from "../../api/api";
+import { getAuth, usersAPI } from "../../api/api";
+
 class HeaderContainer extends React.Component {
   componentDidMount() {
-    getAuth().then((response) => {
+    usersAPI.getAuth().then((response) => {
       if (response.data.resultCode === 0) {
         let { email, id, login } = response.data.data;
         this.props.setAuthUserData(email, id, login);
