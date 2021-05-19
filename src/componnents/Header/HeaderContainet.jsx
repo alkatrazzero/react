@@ -4,27 +4,24 @@ import { connect } from "react-redux";
 import { setAuthUserData, setCurrentProfile } from "../../redux/authReduser";
 import Header from "./Header";
 import "./Header.module.css";
+import { getAuth } from "../../api/api";
 class HeaderContainer extends React.Component {
   componentDidMount() {
-    axios
-      .get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.data.resultCode === 0) {
-          let { email, id, login } = response.data.data;
-          this.props.setAuthUserData(email, id, login);
+    getAuth().then((response) => {
+      if (response.data.resultCode === 0) {
+        let { email, id, login } = response.data.data;
+        this.props.setAuthUserData(email, id, login);
 
-          axios
-            .get(
-              `https://social-network.samuraijs.com/api/1.0/profile/` +
-                response.data.data.id
-            )
-            .then((response) => {
-              this.props.setCurrentProfile(response.data);
-            });
-        }
-      });
+        axios
+          .get(
+            `https://social-network.samuraijs.com/api/1.0/profile/` +
+              response.data.data.id
+          )
+          .then((response) => {
+            this.props.setCurrentProfile(response.data);
+          });
+      }
+    });
   }
   render() {
     return <Header {...this.props} />;
