@@ -16,7 +16,7 @@ class ProfileContainer extends React.Component {
     // this.props.toggleIsFetching(true);
     let userId = this.props.match.params.userId;
     if (!userId) {
-      userId = 2;
+      userId = 12;
     }
     usersAPI.getProfile(userId).then((response) => {
       this.props.toggleIsFetching(false);
