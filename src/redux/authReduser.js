@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
 let initialState = {
@@ -31,4 +33,19 @@ export const setAuthUserData = (email, id, login) => {
 export const setCurrentProfile = (currentProfile) => {
   return { type: SET_CURRENT_PROFILE, currentProfile };
 };
+
+export const getAuth = () => {
+  return (dispatch) => {
+    usersAPI.getAuth().then((response) => {
+      if (response.data.resultCode === 0) {
+        let { email, id, login } = response.data.data;
+        dispatch(setAuthUserData(email, id, login));
+        usersAPI.getCurrentProfileId(response.data.data.id).then((response) => {
+          dispatch(setCurrentProfile(response.data));
+        });
+      }
+    });
+  };
+};
+
 export default authReduser;
