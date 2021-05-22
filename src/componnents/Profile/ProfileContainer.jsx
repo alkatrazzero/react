@@ -11,9 +11,7 @@ import { getProfile, usersAPI } from "../../api/api";
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
-    let page = this.props.id;
     this.props.toggleIsFetching(true);
-    // this.props.toggleIsFetching(true);
     let userId = this.props.match.params.userId;
     if (!userId) {
       userId = 12;
@@ -21,7 +19,6 @@ class ProfileContainer extends React.Component {
     usersAPI.getProfile(userId).then((response) => {
       this.props.toggleIsFetching(false);
       this.props.setUsersProfile(response.data);
-      // this.props.setTotalUsersCount(response.data.totalCount);
     });
   }
   render = () => {
