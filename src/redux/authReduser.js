@@ -1,5 +1,4 @@
 import { usersAPI } from "../api/api";
-
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
 let initialState = {
