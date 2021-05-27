@@ -26,6 +26,7 @@ class ProfileContainer extends React.Component {
 }
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
+  isAuth: state.auth.isAuth,
 });
 let WithUrlDataContainerComponent = withRouter(ProfileContainer);
 export default connect(mapStateToProps, {

@@ -6,7 +6,7 @@
 .Nav {
   grid-area: n;
   padding: 20px;
-  background-color: yellowgreen;
+  background-color: rgb(224, 193, 12);
 }
 .activeLink {
   color: gold;

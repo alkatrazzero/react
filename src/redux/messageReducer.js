@@ -38,12 +38,12 @@ const messageReducer = (state = initialState, action) => {
       return state;
   }
 };
-export let addMessageActionCreator = () => {
+export let addMessage = () => {
   return {
     type: ADD_MESSAGE,
   };
 };
-export let updateNewMessageTextActionCreator = (text) => {
+export let updateNewMessageText = (text) => {
   return {
     type: UPDATE_NEW_MESSAGE_TEXT,
     newText: text,
