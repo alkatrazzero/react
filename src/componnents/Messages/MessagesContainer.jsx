@@ -9,7 +9,7 @@ let mapStateToProps = (state) => {
     isAuth: state.auth.isAuth,
   };
 };
-
+// let AuthRedirectComponent = withAuthRedirect(message);
 const MessagesContainer = connect(mapStateToProps, {
   updateNewMessageText,
   addMessage,
