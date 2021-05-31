@@ -1,11 +1,15 @@
 import React from "react";
-import { setUsersProfile } from "../../redux/profileReducer";
 import { connect } from "react-redux";
-import { getProfile } from "../../redux/profileReducer";
+import {
+  getProfile,
+  getStatus,
+  setUsersProfile,
+} from "../../redux/profileReducer";
 import Profile from "./Profile";
 import { withRouter } from "react-router";
 import { toggleIsFetching } from "../../redux/usersReduser";
 import Preloader from "../common/Preloader";
+import { compose } from "redux";
 class ProfileContainer extends React.Component {
   componentDidMount() {
     this.props.toggleIsFetching(true);
@@ -14,12 +18,13 @@ class ProfileContainer extends React.Component {
       userId = 12;
     }
     this.props.getProfile(userId);
+    this.props.getStatus(userId);
   }
   render = () => {
     return (
       <>
         <div>{this.props.isFetching ? <Preloader /> : null}</div>
-        <Profile profile={this.props.profile} />;
+        <Profile profile={this.props.profile} status={this.props.status} />;
       </>
     );
   };
@@ -27,10 +32,14 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   isAuth: state.auth.isAuth,
+  status: state.profilePage.status,
 });
-let WithUrlDataContainerComponent = withRouter(ProfileContainer);
-export default connect(mapStateToProps, {
-  setUsersProfile,
-  toggleIsFetching,
-  getProfile,
-})(WithUrlDataContainerComponent);
+export default compose(
+  connect(mapStateToProps, {
+    setUsersProfile,
+    toggleIsFetching,
+    getProfile,
+    getStatus,
+  }),
+  withRouter
+)(ProfileContainer);

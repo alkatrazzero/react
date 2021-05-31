@@ -33,8 +33,12 @@ export const usersAPI = {
     });
   },
   getCurrentProfileId(id) {
-    return instance.get(
-      `https://social-network.samuraijs.com/api/1.0/profile/${id}`
-    );
+    return instance.get(`profile/${id}`);
+  },
+  getStatus(id) {
+    return instance.get(`profile/status/${id}`);
+  },
+  updateStatus(status) {
+    return instance.put(`profile/status`, { status: status });
   },
 };

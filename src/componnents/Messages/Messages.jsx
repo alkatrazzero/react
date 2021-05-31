@@ -16,7 +16,7 @@ const Messages = (props) => {
   let newMessage = React.createRef();
   let onMessageChange = () => {
     let text = newMessage.current.value;
-    props.updateNewMessage(text);
+    props.updateNewMessageText(text);
   };
 
   return (

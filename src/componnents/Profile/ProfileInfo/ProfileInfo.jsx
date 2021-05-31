@@ -6,11 +6,13 @@ const ProfileInfo = (props) => {
   if (!props.profile) {
     return <Preloader />;
   }
+
   return (
     <div>
       <div>
         <img src={!props.profile.photos.small ? userPhoto : null}></img>
       </div>
+      <div className={s.status}>{props.status}</div>
       <div>{props.profile.fullName}</div>
       <img src={props.profile.photos.large} />
       <div className={s.descriptionBlock}>{props.profile.aboutMe}</div>

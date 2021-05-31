@@ -1,24 +1,18 @@
 import React from "react";
-import Preloader from "../common/Preloader";
-import userPhoto from "../../assets/images/2.png";
-import { Redirect } from "react-router";
+import MyPostsConteiner from "./myPosts/MyPostsContainer";
+import MyProfileInfo from "./ProfileInfo/MyProfileInfo";
+
 const MyProfile = (props) => {
   return (
     <div>
-      <div>
-        {!props.currentProfile ? (
-          <Preloader />
-        ) : (
-          <div>
-            <div>
-              <img
-                src={!props.currentProfile.photos.small ? userPhoto : null}
-              ></img>
-            </div>
-            <div>{props.currentProfile.userId}</div>
-          </div>
-        )}
-      </div>
+      <MyProfileInfo
+        currentProfile={props.currentProfile}
+        updateStatus={props.updateStatus}
+        status={props.status}
+        getStatus={props.getStatus}
+        currentProfile={props.currentProfile}
+      />
+      <MyPostsConteiner />
     </div>
   );
 };
