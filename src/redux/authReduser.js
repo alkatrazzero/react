@@ -1,6 +1,7 @@
 import { usersAPI } from "../api/api";
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
+const SET_FORM_DATA = "SET_FORM_DATA";
 let initialState = {
   id: null,
   email: null,
@@ -8,6 +9,7 @@ let initialState = {
   isFetching: false,
   isAuth: false,
   currentProfile: null,
+  formData: null,
 };
 const authReduser = (state = initialState, action) => {
   switch (action.type) {
@@ -22,6 +24,11 @@ const authReduser = (state = initialState, action) => {
         ...state,
         currentProfile: action.currentProfile,
       };
+    case SET_FORM_DATA:
+      return {
+        ...state,
+        formData: action.formData,
+      };
     default:
       return state;
   }
@@ -31,6 +38,9 @@ export const setAuthUserData = (email, id, login) => {
 };
 export const setCurrentProfile = (currentProfile) => {
   return { type: SET_CURRENT_PROFILE, currentProfile };
+};
+const setFormData = (formData) => {
+  return { type: SET_FORM_DATA, formData };
 };
 
 export const getAuth = () => {
@@ -46,5 +56,9 @@ export const getAuth = () => {
     });
   };
 };
-
+export const getFormData = (formData) => {
+  return (dispatch) => {
+    dispatch(setFormData(formData));
+  };
+};
 export default authReduser;

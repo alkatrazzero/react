@@ -2,7 +2,13 @@ import React from "react";
 class MyProfileStatus extends React.Component {
   state = {
     editMode: false,
-    status: this.props.status,
+    status: this.props.myStatus,
+  };
+  onStatusChange = (e) => {
+    this.setState({ status: e.currentTarget.value });
+  };
+  clearStatus = () => {
+    this.setState({ status: " " });
   };
   activateEditMode = () => {
     this.setState({ editMode: true });
@@ -11,18 +17,22 @@ class MyProfileStatus extends React.Component {
     this.setState({ editMode: false });
     this.props.updateStatus(this.state.status);
   };
-  onStatusChange = (e) => {
-    this.setState({ status: e.currentTarget.value });
-  };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.myStatus !== this.props.myStatus) {
+      this.setState({ status: this.props.myStatus });
+    }
+  }
+
   // userApi.getStatus()
 
   render() {
+    console.log("render");
     return (
       <>
         {!this.state.editMode ? (
           <div>
             <span onDoubleClick={this.activateEditMode}>
-              {this.props.status || "-----"}
+              {this.props.myStatus || "-----"}
             </span>
           </div>
         ) : (
@@ -36,7 +46,9 @@ class MyProfileStatus extends React.Component {
             ></input>
           </div>
         )}
-        <div>{/* <button>Submit</button> */}</div>
+        <div>
+          <button onClick={this.clearStatus}>Clear Status</button>
+        </div>
       </>
     );
   }

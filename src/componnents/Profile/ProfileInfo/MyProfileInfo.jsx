@@ -8,7 +8,7 @@ const MyProfileInfo = (props) => {
     return <Preloader />;
   }
 
-  props.getStatus(props.currentProfile.userId);
+  props.getMyStatus(props.currentProfile.userId);
   return (
     <div>
       <div>{props.currentProfile.fullName}</div>
@@ -17,7 +17,7 @@ const MyProfileInfo = (props) => {
         <img src={!props.currentProfile.photos.small ? userPhoto : null}></img>
       </div>
       <MyProfileStatus
-        status={props.status}
+        myStatus={props.myStatus}
         updateStatus={props.updateStatus}
       />
 

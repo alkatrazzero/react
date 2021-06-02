@@ -8,8 +8,8 @@ const MyProfile = (props) => {
       <MyProfileInfo
         currentProfile={props.currentProfile}
         updateStatus={props.updateStatus}
-        status={props.status}
-        getStatus={props.getStatus}
+        myStatus={props.myStatus}
+        getMyStatus={props.getMyStatus}
         currentProfile={props.currentProfile}
       />
       <MyPostsConteiner />

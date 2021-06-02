@@ -6,7 +6,7 @@ import { toggleIsFetching } from "../../redux/usersReduser";
 import { compose } from "redux";
 import MyProfile from "./myProfile";
 import Preloader from "../common/Preloader";
-import { getStatus, updateStatus } from "../../redux/profileReducer";
+import { getMyStatus, updateStatus } from "../../redux/profileReducer";
 
 class MyProfileContainer extends React.Component {
   componentDidMount() {
@@ -20,9 +20,9 @@ class MyProfileContainer extends React.Component {
         <MyProfile
           {...this.props}
           currentProfile={this.props.currentProfile}
-          status={this.props.status}
+          myStatus={this.props.myStatus}
           updateStatus={this.props.updateStatus}
-          getStatus={this.props.getStatus}
+          getMyStatus={this.props.getMyStatus}
           currentProfile={this.props.currentProfile}
         />
       </>
@@ -33,7 +33,7 @@ class MyProfileContainer extends React.Component {
 let mapStateToProps = (state) => ({
   currentProfile: state.auth.currentProfile,
   isAuth: state.auth.isAuth,
-  status: state.profilePage.status,
+  myStatus: state.profilePage.myStatus,
   id: state.auth.id,
 });
 // let AuthRedirectComponent = withAuthRedirect(MyProfileContainer);
@@ -43,7 +43,7 @@ export default compose(
     getAuth,
     updateStatus,
     toggleIsFetching,
-    getStatus,
+    getMyStatus,
   }),
   // withAuthRedirect,
   withRouter

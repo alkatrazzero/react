@@ -4,6 +4,7 @@ const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USERS_PROFILE = "SET_USERS_PROFILE";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const SET_STATUS = "SET_STATUS";
+const SET_MY_STATUS = "SET_MY_STATUS";
 
 let initialState = {
   posts: [],
@@ -12,6 +13,7 @@ let initialState = {
   page: 1,
   isFetching: false,
   status: " ",
+  myStatus: " ",
 };
 const profileReducer = (state = initialState, action) => {
   let stateCopy = { ...state, posts: [...state.posts] };
@@ -32,6 +34,9 @@ const profileReducer = (state = initialState, action) => {
       return { ...state, isFetching: action.isFetching };
     case SET_STATUS: {
       return { ...state, status: action.status };
+    }
+    case SET_MY_STATUS: {
+      return { ...state, myStatus: action.status };
     }
     default:
       return state;
@@ -60,6 +65,9 @@ const toggleIsFetching = (isFetching) => {
 const setStatus = (status) => {
   return { type: SET_STATUS, status };
 };
+const setMyStatus = (status) => {
+  return { type: SET_MY_STATUS, status };
+};
 
 export const getProfile = (userId) => {
   return (dispatch) => {
@@ -76,11 +84,18 @@ export const getStatus = (id) => {
     });
   };
 };
+export const getMyStatus = (id) => {
+  return (dispatch) => {
+    usersAPI.getStatus(id).then((response) => {
+      dispatch(setMyStatus(response.data));
+    });
+  };
+};
 export const updateStatus = (status) => {
   return (dispatch) => {
     usersAPI.updateStatus(status).then((response) => {
       if (response.data.resultCode === 0) {
-        dispatch(setStatus(status));
+        dispatch(setMyStatus(status));
       }
     });
   };
