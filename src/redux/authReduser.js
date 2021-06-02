@@ -39,7 +39,7 @@ export const setAuthUserData = (email, id, login) => {
 export const setCurrentProfile = (currentProfile) => {
   return { type: SET_CURRENT_PROFILE, currentProfile };
 };
-const setFormData = (formData) => {
+export const addLoginData = (formData) => {
   return { type: SET_FORM_DATA, formData };
 };
 
@@ -58,7 +58,7 @@ export const getAuth = () => {
 };
 export const getFormData = (formData) => {
   return (dispatch) => {
-    dispatch(setFormData(formData));
+    dispatch(addLoginData(formData));
   };
 };
 export default authReduser;

@@ -11,7 +11,8 @@ import UsersContainer from "./componnents/users/UsersContainer";
 import ProfileContainer from "./componnents/Profile/ProfileContainer";
 import HeaderContainer from "./componnents/Header/HeaderContainet";
 import MyProfileContainer from "./componnents/Profile/myProfileContainer";
-import Login from "./componnents/login/Login";
+
+import LoginContainer from "./componnents/login/LoginContainer";
 
 const App = (props) => {
   return (
@@ -31,7 +32,7 @@ const App = (props) => {
         />
         <Route path="/Users" render={() => <UsersContainer />} />
         <Route path={"/MyProfile"} render={() => <MyProfileContainer />} />
-        <Route path={"/Login"} render={() => <Login />} />
+        <Route path={"/Login"} render={() => <LoginContainer />} />
       </div>
     </div>
   );

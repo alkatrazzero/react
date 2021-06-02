@@ -1,10 +1,8 @@
 import React from "react";
-import { getFormData } from "../../redux/authReduser";
 import { LoginReduxForm } from "./LoginForm";
 const Login = (props) => {
   const onSubmit = (formData) => {
-    console.log(formData);
-    getFormData(formData);
+    props.addLoginData(formData);
   };
   return (
     <div>
