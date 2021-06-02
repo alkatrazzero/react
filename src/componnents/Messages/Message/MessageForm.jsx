@@ -11,6 +11,7 @@ const MessageForm = (props) => {
           placeholder="Enter your message"
         ></Field>
       </div>
+        <div>dsd</div>
       <div>
         <button>send message</button>
       </div>
