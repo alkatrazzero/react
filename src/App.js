@@ -5,7 +5,7 @@ import Music from "./componnents/Music/Music";
 import Nav from "./componnents/Nav/Nav";
 import News from "./componnents/News/News";
 import Settings from "./componnents/Settings/Settings";
-import { Redirect, Route } from "react-router-dom";
+import {  Route } from "react-router-dom";
 import Friends from "./componnents/Friends/Friends";
 import UsersContainer from "./componnents/users/UsersContainer";
 import ProfileContainer from "./componnents/Profile/ProfileContainer";
