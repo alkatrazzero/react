@@ -8,7 +8,7 @@ import {
 import Profile from "./Profile";
 import { withRouter } from "react-router";
 import { toggleIsFetching } from "../../redux/usersReduser";
-import Preloader from "../common/Preloader";
+import Preloader from "../common/Preloader/Preloader";
 import { compose } from "redux";
 class ProfileContainer extends React.Component {
   componentDidMount() {

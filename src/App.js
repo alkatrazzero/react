@@ -11,7 +11,6 @@ import UsersContainer from "./componnents/users/UsersContainer";
 import ProfileContainer from "./componnents/Profile/ProfileContainer";
 import HeaderContainer from "./componnents/Header/HeaderContainet";
 import MyProfileContainer from "./componnents/Profile/myProfileContainer";
-
 import LoginContainer from "./componnents/login/LoginContainer";
 
 const App = (props) => {
@@ -37,5 +36,4 @@ const App = (props) => {
     </div>
   );
 };
-
 export default App;

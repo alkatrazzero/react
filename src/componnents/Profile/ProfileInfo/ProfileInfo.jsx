@@ -1,5 +1,5 @@
 import React from "react";
-import Preloader from "../../common/Preloader";
+import Preloader from "../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
 import userPhoto from "../../../assets/images/2.png";
 const ProfileInfo = (props) => {

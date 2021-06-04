@@ -5,7 +5,7 @@ import { getAuth } from "../../redux/authReduser";
 import { toggleIsFetching } from "../../redux/usersReduser";
 import { compose } from "redux";
 import MyProfile from "./myProfile";
-import Preloader from "../common/Preloader";
+import Preloader from "../common/Preloader/Preloader";
 import { getMyStatus, updateStatus } from "../../redux/profileReducer";
 
 class MyProfileContainer extends React.Component {
