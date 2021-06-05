@@ -1,9 +1,9 @@
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Login from "./Login";
-import { addLoginData } from "../../redux/authReduser";
+import { login} from "../../redux/authReduser";
 let mapStateToProps = (state) => {
-  return {};
+  return {isAuth:state.auth.isAuth};
 };
 
 // let AuthRedirectComponent = withAuthRedirect(Messages);
@@ -14,6 +14,7 @@ let mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, {
-    addLoginData,
+
+      login
   })
 )(Login);

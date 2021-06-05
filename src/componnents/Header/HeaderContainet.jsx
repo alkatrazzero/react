@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  getAuth,
+  getAuth, logout,
   setAuthUserData,
   setCurrentProfile,
 } from "../../redux/authReduser";
@@ -29,4 +29,5 @@ export default connect(mapStateToProps, {
   setAuthUserData,
   setCurrentProfile,
   getAuth,
+  logout
 })(HeaderContainer);

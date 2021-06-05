@@ -1,32 +1,44 @@
-import { reduxForm, Field } from "redux-form";
+import {reduxForm, Field} from "redux-form";
 import React from "react";
+import {Element} from "../common/FormsControl/FormsControl";
+import {maxLengthCreator, minLengthCreator, required} from "../../utilits/validators/Validators";
+import {usersAPI} from "../../api/api";
+const minLength = minLengthCreator(3)
+const maxLength = maxLengthCreator(35)
+const Input = Element("input")
 const LoginForm = (props) => {
-  return (
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field placeholder={"login"} name={"login"} component={"input"}/>
-      </div>
-      <div>
-        <Field
-    placeholder={"password"}
-    name={"password"}
-    component={"input"}
-    />
-      </div>
-      <div>
-        <Field
-    type={"checkbox"}
-    component={"input"}
-    name={"remember me"}
-    />
-        remember me
-      </div>
-      <div>
-        <button>Login</button>
-      </div>
-    </form>
-  );
+// const captcha = usersAPI.getCaptcha()
+
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field validate={[required, maxLength, minLength]} type={"login"} name={"login"} component={Input}
+                       placeholder={"Email"}/>
+            </div>
+            <div>
+                <Field
+                    validate={[required, maxLength, minLength]}
+                    placeholder={"password"}
+                    name={"password"}
+                    component={Input}
+                    type={"password"}
+                />
+            </div>
+            <div>
+                <Field
+                    type={"checkbox"}
+                    component={"input"}
+                    name={"rememberMe"}
+                />
+                remember me
+            </div>
+            <div>
+                <button>Login</button>
+            </div>
+            <div><img  alt=""/></div>
+        </form>
+    );
 };
 export const LoginReduxForm = reduxForm({
-  form: "login",
+    form: "login",
 })(LoginForm);

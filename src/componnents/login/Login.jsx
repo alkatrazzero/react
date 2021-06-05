@@ -1,9 +1,17 @@
 import React from "react";
 import { LoginReduxForm } from "./LoginForm";
+import {connect} from "react-redux";
+import {login} from "../../redux/authReduser";
+import {Redirect} from "react-router";
 const Login = (props) => {
   const onSubmit = (formData) => {
-    props.addLoginData(formData);
+    props.login(formData.login,formData.password,formData.rememberMe);
+    console.log(formData)
   };
+  if(props.isAuth){
+    return <Redirect to ="/MyProfile"/>
+
+  }
   return (
     <div>
       <h1>login</h1>
@@ -11,4 +19,4 @@ const Login = (props) => {
     </div>
   );
 };
-export default Login;
+export default connect(null,{login})(Login);
