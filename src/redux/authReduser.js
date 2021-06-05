@@ -3,6 +3,7 @@ import {usersAPI} from "../api/api";
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
 const SET_FORM_DATA = "SET_FORM_DATA";
+const GET_CAPTCHA_URL = 'GET_CAPTCHA_URL'
 let initialState = {
     id: null,
     email: null,
@@ -10,6 +11,7 @@ let initialState = {
     isFetching: false,
     isAuth: false,
     currentProfile: null,
+    captchaUrl: null
 };
 const authReduser = (state = initialState, action) => {
     switch (action.type) {
@@ -29,23 +31,30 @@ const authReduser = (state = initialState, action) => {
                 ...state,
                 formData: action.formData,
             };
+        case GET_CAPTCHA_URL :
+            return {
+                ...state, captchaUrl: action.URL
+            }
         default:
             return state;
     }
 };
-export const setAuthUserData = (email, id, login,isAuth) => {
-    return {type: SET_USER_DATA, data: {email, id, login,isAuth}};
+export const setAuthUserData = (email, id, login, isAuth) => {
+    return {type: SET_USER_DATA, data: {email, id, login, isAuth}};
 };
 export const setCurrentProfile = (currentProfile) => {
     return {type: SET_CURRENT_PROFILE, currentProfile};
 };
+export const getCaptchaUrl = (URL) => {
+    return {type: GET_CAPTCHA_URL, URL}
+}
 
 export const getAuth = () => {
     return (dispatch) => {
         usersAPI.getAuth().then((response) => {
             if (response.data.resultCode === 0) {
                 let {email, id, login} = response.data.data;
-                dispatch(setAuthUserData(email, id, login,true));
+                dispatch(setAuthUserData(email, id, login, true));
                 usersAPI.getCurrentProfileId(response.data.data.id).then((response) => {
                     dispatch(setCurrentProfile(response.data));
                 });
@@ -53,17 +62,19 @@ export const getAuth = () => {
         });
     };
 };
-export const login = (email, password, rememberMe) => {
+export const login = (email, password, rememberMe, captcha) => {
+
     return (dispatch) => {
-        usersAPI.login(email, password, rememberMe).then((response) => {
+        usersAPI.login(email, password, rememberMe, captcha).then((response) => {
+            console.log(response, "af")
             if (response.data.resultCode === 0) {
                 dispatch(getAuth())
+            } else if (response.data.resultCode === 10) {
+                usersAPI.getCaptcha().then((response) => {
+
+                    dispatch(getCaptchaUrl(response.data))
+                })
             }
-            // else if (response.data.resultCode===10){
-            //     usersAPI.getCaptcha().then((response)=>{
-            //         console.log(response.data)
-            //     })
-            // }
         });
     };
 }
@@ -71,7 +82,7 @@ export const logout = () => {
     return (dispatch) => {
         usersAPI.logout().then((response) => {
             if (response.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null,false));
+                dispatch(setAuthUserData(null, null, null, false));
 
             }
         });

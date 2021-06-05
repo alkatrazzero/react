@@ -3,11 +3,11 @@ import React from "react";
 import {Element} from "../common/FormsControl/FormsControl";
 import {maxLengthCreator, minLengthCreator, required} from "../../utilits/validators/Validators";
 import {usersAPI} from "../../api/api";
+
 const minLength = minLengthCreator(3)
 const maxLength = maxLengthCreator(35)
 const Input = Element("input")
 const LoginForm = (props) => {
-// const captcha = usersAPI.getCaptcha()
 
     return (
         <form onSubmit={props.handleSubmit}>
@@ -35,10 +35,19 @@ const LoginForm = (props) => {
             <div>
                 <button>Login</button>
             </div>
-            <div><img  alt=""/></div>
+            {props.captchaUrl ? <div>
+                <img src={props.captchaUrl.url} alt=""/>
+                <Field
+
+                    type={"captcha"}
+                    component={Input}
+                    name={"captcha"}
+                    placeholder={"captcha"}/></div> : null
+            }
         </form>
     );
 };
 export const LoginReduxForm = reduxForm({
-    form: "login",
-})(LoginForm);
+        form: "login",
+    }
+)(LoginForm);

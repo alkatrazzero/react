@@ -6,12 +6,13 @@ import {toggleIsFetching} from "../../redux/usersReduser";
 import {compose} from "redux";
 import MyProfile from "./myProfile";
 import Preloader from "../common/Preloader/Preloader";
-import {getMyStatus, updateStatus} from "../../redux/profileReducer";
+import {getMyStatus, getProfile, updateStatus} from "../../redux/profileReducer";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class MyProfileContainer extends React.Component {
     componentDidMount() {
         this.props.getAuth();
+
     }
 
     render = () => {
@@ -45,6 +46,8 @@ export default compose(
         updateStatus,
         toggleIsFetching,
         getMyStatus,
+
+
     }),
     // withAuthRedirect,
     withRouter,

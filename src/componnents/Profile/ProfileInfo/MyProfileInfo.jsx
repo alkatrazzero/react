@@ -14,7 +14,7 @@ const MyProfileInfo = (props) => {
       <div>{props.currentProfile.fullName}</div>
       <div>{props.status}</div>
       <div>
-        <img src={!props.currentProfile.photos.small ? userPhoto : null}></img>
+        <img src={!props.currentProfile.photos.small ? userPhoto : null}/>
       </div>
       <MyProfileStatus
         myStatus={props.myStatus}
