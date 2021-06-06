@@ -12,7 +12,7 @@ const MyProfileInfo = (props) => {
   return (
     <div>
       <div>{props.currentProfile.fullName}</div>
-      <div>{props.status}</div>
+
       <div>
         <img src={!props.currentProfile.photos.small ? userPhoto : null}/>
       </div>

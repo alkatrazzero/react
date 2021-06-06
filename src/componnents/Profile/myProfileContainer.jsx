@@ -10,10 +10,10 @@ import {getMyStatus, getProfile, updateStatus} from "../../redux/profileReducer"
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class MyProfileContainer extends React.Component {
-    componentDidMount() {
-        this.props.getAuth();
-
-    }
+    // componentDidMount() {
+    //     this.props.getAuth();
+    //
+    // }
 
     render = () => {
         return (

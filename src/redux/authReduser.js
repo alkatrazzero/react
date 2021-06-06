@@ -1,4 +1,5 @@
 import {usersAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
@@ -51,29 +52,31 @@ export const getCaptchaUrl = (URL) => {
 
 export const getAuth = () => {
     return (dispatch) => {
-        usersAPI.getAuth().then((response) => {
+       return usersAPI.getAuth().then((response) => {
             if (response.data.resultCode === 0) {
                 let {email, id, login} = response.data.data;
                 dispatch(setAuthUserData(email, id, login, true));
                 usersAPI.getCurrentProfileId(response.data.data.id).then((response) => {
                     dispatch(setCurrentProfile(response.data));
-                });
+                })
             }
         });
+
     };
+
 };
 export const login = (email, password, rememberMe, captcha) => {
-
     return (dispatch) => {
         usersAPI.login(email, password, rememberMe, captcha).then((response) => {
-            console.log(response, "af")
             if (response.data.resultCode === 0) {
                 dispatch(getAuth())
             } else if (response.data.resultCode === 10) {
                 usersAPI.getCaptcha().then((response) => {
-
                     dispatch(getCaptchaUrl(response.data))
                 })
+            } else {
+                let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
+                dispatch(stopSubmit("login", {_error: message}));
             }
         });
     };
