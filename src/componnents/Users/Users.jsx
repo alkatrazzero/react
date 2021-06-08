@@ -1,7 +1,8 @@
 import React from "react";
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/2.png";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {SearchReduxForm} from "./searchUsersForm";
 
 let Users = (props) => {
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -9,9 +10,17 @@ let Users = (props) => {
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
+  const onSubmit = (formData) => {
+    return (
+      props.setPageSize(formData.search),
+        props.getUsers(props.currentPage, formData.search))
 
+  }
   return (
+
     <div className={s.users}>
+      <SearchReduxForm onSubmit={onSubmit}/>
+
       <div>
         {pages.map((page) => (
           <span
@@ -35,7 +44,7 @@ let Users = (props) => {
                 />
               </NavLink>
             </div>
-            <div>
+            {props.isAuth ? <div>
               {u.followed ? (
                 <button
                   disabled={props.followingInProgress.some((id) => id === u.id)}
@@ -55,7 +64,7 @@ let Users = (props) => {
                   follow
                 </button>
               )}
-            </div>
+            </div> : null}
           </span>
           <span>
             <span className={s.status}>

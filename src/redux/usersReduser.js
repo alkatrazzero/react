@@ -7,6 +7,7 @@ const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "FOLLOWING_IN_PROGRESS";
+const SET_PAGE_SIZE = "SET_PAGE_SIZE"
 let initialState = {
     users: [],
     pageSize: 25,
@@ -52,6 +53,8 @@ const usersReduser = (state = initialState, action) => {
                     ? [...state.followingInProgress, action.Id]
                     : [...state.followingInProgress.filter((Id) => Id != action.Id)],
             };
+        case SET_PAGE_SIZE:
+            return {...state, pageSize: action.size}
         default:
             return state;
     }
@@ -59,6 +62,7 @@ const usersReduser = (state = initialState, action) => {
 export const followAccept = (userId) => {
     return {type: FOLLOW, userId};
 };
+
 export const unFollowAccept = (userId) => {
     return {type: UNFOLLOW, userId};
 };
@@ -77,6 +81,9 @@ export const toggleIsFetching = (isFetching) => {
 export const toggleFollowingInProgress = (isFetching, Id) => {
     return {type: FOLLOWING_IN_PROGRESS, isFetching, Id};
 };
+export const currentPageSize = (size) => {
+    return {type: SET_PAGE_SIZE, size}
+}
 export const getUsers = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(setCurrentPage(currentPage));
@@ -110,4 +117,7 @@ export const unFollow = (userId) => {
         });
     };
 };
+export const setPageSize = (size) => (dispatch) => {
+    dispatch(currentPageSize(size));
+}
 export default usersReduser;
