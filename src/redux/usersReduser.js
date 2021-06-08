@@ -51,7 +51,7 @@ const usersReduser = (state = initialState, action) => {
                 ...state,
                 followingInProgress: action.isFetching
                     ? [...state.followingInProgress, action.Id]
-                    : [...state.followingInProgress.filter((Id) => Id != action.Id)],
+                    : [...state.followingInProgress.filter((Id) => Id !== action.Id)],
             };
         case SET_PAGE_SIZE:
             return {...state, pageSize: action.size}
