@@ -3,38 +3,44 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/2.png";
 import {NavLink} from "react-router-dom";
 import {SearchReduxForm} from "./searchUsersForm";
+import Preloader from "../common/Preloader/Preloader";
 
 let Users = (props) => {
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-  let pages = [];
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
-  const onSubmit = (formData) => {
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+      pages.push(i);
+    }
+    const onSubmit = (formData) => {
+      if (formData.search) {
+        return (props.setPageSize(formData.search),
+          props.getUsers(props.currentPage, formData.search))
+      }
+      return (props.setPageSize(10),
+        props.getUsers(props.currentPage, 10))
+
+
+      // props.getUsers(props.currentPage, formData.search))
+
+    }
     return (
-      props.setPageSize(formData.search),
-        props.getUsers(props.currentPage, formData.search))
+      <>{props.isFetching ? <Preloader/> : <div className={s.users}>
+        <SearchReduxForm onSubmit={onSubmit}/>
 
-  }
-  return (
-
-    <div className={s.users}>
-      <SearchReduxForm onSubmit={onSubmit}/>
-
-      <div>
-        {pages.map((page) => (
-          <span
-            onClick={(e) => {
-              props.onPageChanged(page);
-            }}
-            className={props.currentPage === page && s.selectedPage}
-          >
+        <div>
+          {pages.map((page) => (
+            <span
+              onClick={(e) => {
+                props.onPageChanged(page);
+              }}
+              className={props.currentPage === page && s.selectedPage}
+            >
             {page}.
           </span>
-        ))}
-      </div>
-      {props.users.map((u) => (
-        <div key={u.id} className={s.container}>
+          ))}
+        </div>
+        {props.users.map((u) => (
+          <div key={u.id} className={s.container}>
           <span>
             <div>
               <NavLink to={"/profile/" + u.id}>
@@ -66,7 +72,7 @@ let Users = (props) => {
               )}
             </div> : null}
           </span>
-          <span>
+            <span>
             <span className={s.status}>
               <div>{u.name}</div>
               <div>{u.status}</div>
@@ -76,9 +82,11 @@ let Users = (props) => {
               <div className={s.location}>{"u.location.city"}</div>
             </span>
           </span>
-        </div>
-      ))}
-    </div>
-  );
-};
+          </div>
+        ))}
+      </div>}
+      </>
+    );
+  }
+;
 export default Users;

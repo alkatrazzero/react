@@ -11,7 +11,6 @@ const Login = (props) => {
   };
   if(props.isAuth){
     return <Redirect to ="/MyProfile"/>
-
   }
   return (
     <div>
