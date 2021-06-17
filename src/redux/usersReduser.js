@@ -10,7 +10,7 @@ const FOLLOWING_IN_PROGRESS = "FOLLOWING_IN_PROGRESS";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE"
 let initialState = {
   users: [],
-  pageSize: 25,
+  pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: false,

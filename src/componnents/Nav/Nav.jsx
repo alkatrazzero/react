@@ -1,6 +1,5 @@
 import React from "react";
 import classes from "./Nav.module.css";
-import { NavLink } from "react-router-dom";
 import FriendsOnline from "./friendsOnline/FriendsOnline";
 import NavRender from "./friendsOnline/NavRender";
 import FriendsRender from "./friendsOnline/FriendsRender";

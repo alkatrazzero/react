@@ -8,14 +8,13 @@ import {
 } from "../../redux/usersReduser";
 import Users from "./Users";
 import React from "react";
-import Preloader from "../common/Preloader/Preloader";
 import {compose} from "redux";
 import {
-  getAllUsers, getFetching,
+   getFetching,
   getFollowingInProgress,
   getPageSize,
   getTotalUsersCount,
-  getUserPage
+  getUserPage, getUsersSuper
 } from "../../redux/usersSelectors";
 
 class UsersContainer extends React.Component {
@@ -23,8 +22,9 @@ class UsersContainer extends React.Component {
     this.props.getUsers(this.props.currentPage, this.props.pageSize);
   }
 
-  onPageChanged = (page) => {
-    this.props.getUsers(page, this.props.pageSize);
+  onPageChanged = (page,pageSize) => {
+    console.log(page,this.props.pageSize)
+    this.props.getUsers(page, pageSize);
   };
 
   render = () => {
@@ -56,7 +56,8 @@ class UsersContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: getAllUsers(state),
+    users: getUsersSuper(state),
+   // users: getAllUsers(state),
     pageSize: getPageSize(state),
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getUserPage(state),

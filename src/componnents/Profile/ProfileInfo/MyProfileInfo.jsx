@@ -2,7 +2,7 @@ import React from "react";
 import Preloader from "../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
 import userPhoto from "../../../assets/images/2.png";
-import MyProfileStatus from "./MyProfileStatus";
+import MyProfileStatusWithHooks from "./MyProfileStatusWithHooks";
 const MyProfileInfo = (props) => {
   if (!props.currentProfile) {
     return <Preloader />;
@@ -16,7 +16,7 @@ const MyProfileInfo = (props) => {
       <div>
         <img src={!props.currentProfile.photos.small ? userPhoto : null}/>
       </div>
-      <MyProfileStatus
+      <MyProfileStatusWithHooks
         myStatus={props.myStatus}
         updateStatus={props.updateStatus}
       />

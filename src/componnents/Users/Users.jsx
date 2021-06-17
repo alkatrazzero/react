@@ -2,42 +2,34 @@ import React from "react";
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/2.png";
 import {NavLink} from "react-router-dom";
-import {SearchReduxForm} from "./searchUsersForm";
 import Preloader from "../common/Preloader/Preloader";
+import {Input, Pagination} from 'antd'
 
 let Users = (props) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+    console.log(props.totalUsersCount / props.pageSize, "ds")
+    console.log(pagesCount, "pagesCount")
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
       pages.push(i);
     }
-    const onSubmit = (formData) => {
-      if (formData.search) {
-        return (props.setPageSize(formData.search),
-          props.getUsers(props.currentPage, formData.search))
-      }
-      return (props.setPageSize(10),
-        props.getUsers(props.currentPage, 10))
-
-
-      // props.getUsers(props.currentPage, formData.search))
-
-    }
+    const {Search} = Input;
+    const onSearch = value => console.log(value);
     return (
       <>{props.isFetching ? <Preloader/> : <div className={s.users}>
-        <SearchReduxForm onSubmit={onSubmit}/>
-
         <div>
-          {pages.map((page) => (
-            <span
-              onClick={(e) => {
-                props.onPageChanged(page);
-              }}
-              className={props.currentPage === page && s.selectedPage}
-            >
-            {page}.
-          </span>
-          ))}
+          <Pagination className={s.Pagination} onShowSizeChange={(i, e) => props.setPageSize(e)} pageSize={props.pageSize}
+                      current={props.currentPage} onChange={(page, pageSize) => props.onPageChanged(page, pageSize)}
+                      defaultCurrent={1} size={"small"}
+                      total={props.totalUsersCount}/>
+          <Search className={s.Search}
+                  placeholder="input search text"
+                  allowClear
+                  enterButton="Search"
+                  size="small"
+                  onSearch={onSearch}
+            // onPressEnter={}
+          />
         </div>
         {props.users.map((u) => (
           <div key={u.id} className={s.container}>
