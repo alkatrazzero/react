@@ -1,5 +1,5 @@
 import {usersAPI} from "../api/api";
-
+import {updateObjectInArray} from "../utilits/ojectHelpers";
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
@@ -16,27 +16,18 @@ let initialState = {
   isFetching: false,
   followingInProgress: [],
 };
+
 const usersReduser = (state = initialState, action) => {
   switch (action.type) {
     case FOLLOW:
       return {
         ...state,
-        users: state.users.map((u) => {
-          if (u.id === action.userId) {
-            return {...u, followed: true};
-          }
-          return u;
-        }),
+       users: updateObjectInArray(state.users,"id",action.userId,{followed: true})
       };
     case UNFOLLOW:
       return {
         ...state,
-        users: state.users.map((u) => {
-          if (u.id === action.userId) {
-            return {...u, followed: false};
-          }
-          return u;
-        }),
+        users: updateObjectInArray(state.users,"id",action.userId,{followed: false})
       };
     case SET_USERS:
       return {...state, users: [...action.users]};
@@ -55,10 +46,12 @@ const usersReduser = (state = initialState, action) => {
       };
     case SET_PAGE_SIZE:
       return {...state, pageSize: action.size}
+
     default:
       return state;
   }
 };
+
 export const followAccept = (userId) => {
   return {type: FOLLOW, userId};
 };
@@ -85,36 +78,34 @@ export const currentPageSize = (size) => {
   return {type: SET_PAGE_SIZE, size}
 }
 export const getUsers = (currentPage, pageSize) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(setCurrentPage(currentPage));
     dispatch(toggleIsFetching(true));
-    usersAPI.getUsers(currentPage, pageSize).then((response) => {
-      dispatch(toggleIsFetching(false));
-      dispatch(setUsers(response.items));
-      dispatch(setTotalUsersCount(response.totalCount));
-    });
+    let response = await usersAPI.getUsers(currentPage, pageSize)
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(response.items));
+    dispatch(setTotalUsersCount(response.totalCount));
+
   };
 };
 export const follow = (userId) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleFollowingInProgress(true, userId));
-    usersAPI.follow(userId).then((response) => {
-      if (response.resultCode === 0) {
-        dispatch(followAccept(userId));
-      }
-      dispatch(toggleFollowingInProgress(false, userId));
-    });
+    let response = await usersAPI.follow(userId)
+    if (response.resultCode === 0) {
+      dispatch(followAccept(userId));
+    }
+    dispatch(toggleFollowingInProgress(false, userId));
   };
 };
 export const unFollow = (userId) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleFollowingInProgress(true, userId));
-    usersAPI.unFollow(userId).then((response) => {
-      if (response.resultCode === 0) {
-        dispatch(unFollowAccept(userId));
-      }
-      dispatch(toggleFollowingInProgress(false, userId));
-    });
+    let response = await usersAPI.unFollow(userId)
+    if (response.resultCode === 0) {
+      dispatch(unFollowAccept(userId));
+    }
+    dispatch(toggleFollowingInProgress(false, userId));
   };
 };
 export const setPageSize = (size) => (dispatch) => {
