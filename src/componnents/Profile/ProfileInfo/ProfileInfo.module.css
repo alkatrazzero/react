@@ -1,6 +1,20 @@
-.descriptionBlock {
-  padding: 10px;
-}
+
 .status {
   font-size: 30px;
 }
+.myStatus{
+font-weight: bold;
+  font-style: italic;
+}
+.myName{
+  font-size: 25px;
+  color:blue
+}
+.contacts{
+  padding-left: 15px;
+}
+.form{
+  padding:0px 105px;
+}
+
+

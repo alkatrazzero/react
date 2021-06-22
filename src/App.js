@@ -17,6 +17,7 @@ import {compose} from "redux";
 import {withRouter} from "react-router";
 import {initializeApp} from "./redux/appReducer";
 import Preloader from "./componnents/common/Preloader/Preloader";
+import FriendsContainer from "./componnents/Friends/FriendsContainer";
 
 
 class App extends React.Component {
@@ -37,13 +38,13 @@ class App extends React.Component {
 
                     <Route path="/Music" render={() => <Music/>}/>
                     <Route path="/News" render={() => <News/>}/>
-                    <Route path="/Settings" render={() => <Settings/>}/>
+
                     <Route
                         path="/Friends"
-                        render={() => <Friends state={this.props.state.friends}/>}
+                        render={() => <FriendsContainer />}
                     />
                     <Route path="/Users" render={() => <UsersContainer/>}/>
-                    <Route path={"/MyProfile"} render={() => <MyProfileContainer/>}/>
+                    <Route path={"/MyProfile/"} render={() => <MyProfileContainer/>}/>
                     <Route path={"/Login"} render={() => <LoginContainer/>}/>
 
                 </div>
@@ -55,7 +56,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        // userId:state.auth.currentProfile.userId
     }
 
 };

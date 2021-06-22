@@ -18,10 +18,16 @@
   text-decoration: none;
   color: black;
   display: inline-block;
+
 }
 .friendsSiteBar {
+
   padding-top: 60px;
 }
 .friendsOnline {
-  width: 30px;
+  /*list-style: none;*/
+  display: flex;
+  width: 40px;
+  padding: 5px 5px;
+  /*width: fit-content;*/
 }

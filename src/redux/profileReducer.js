@@ -1,9 +1,12 @@
-import { usersAPI } from "../api/api";
+import {usersAPI} from "../api/api";
+import {getAuth} from "./authReduser";
+
 const ADD_POST = "ADD-POST";
 const SET_USERS_PROFILE = "SET_USERS_PROFILE";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const SET_STATUS = "SET_STATUS";
 const SET_MY_STATUS = "SET_MY_STATUS";
+const SAVE_PROFILE = "SAVE_PROFILE"
 
 let initialState = {
   posts: [],
@@ -19,23 +22,28 @@ const profileReducer = (state = initialState, action) => {
     case ADD_POST:
       return {
         ...state,
-        posts: [...state.posts, { id: 1, message: action.newPost, like: 0 }],
+        posts: [...state.posts, {id: 1, message: action.newPost, like: 0}],
       };
 
     case SET_USERS_PROFILE:
-      return { ...state, profile: action.profile };
+      return {...state, profile: action.profile};
     case TOGGLE_IS_FETCHING:
-      return { ...state, isFetching: action.isFetching };
+      return {...state, isFetching: action.isFetching};
     case SET_STATUS: {
-      return { ...state, status: action.status };
+      return {...state, status: action.status};
     }
     case SET_MY_STATUS: {
-      return { ...state, myStatus: action.status };
+      return {...state, myStatus: action.status};
     }
+    case SAVE_PROFILE:{
+      return {}
+    }
+
     default:
       return state;
   }
 };
+
 export const setUsersProfile = (profile) => {
   return {
     type: SET_USERS_PROFILE,
@@ -43,17 +51,17 @@ export const setUsersProfile = (profile) => {
   };
 };
 export const addPost = (newPost) => {
-  return { type: ADD_POST, newPost };
+  return {type: ADD_POST, newPost};
 };
 
 const toggleIsFetching = (isFetching) => {
-  return { type: TOGGLE_IS_FETCHING, isFetching };
+  return {type: TOGGLE_IS_FETCHING, isFetching};
 };
 const setStatus = (status) => {
-  return { type: SET_STATUS, status };
+  return {type: SET_STATUS, status};
 };
 const setMyStatus = (status) => {
-  return { type: SET_MY_STATUS, status };
+  return {type: SET_MY_STATUS, status};
 };
 
 export const getProfile = (userId) => {
@@ -85,6 +93,15 @@ export const updateStatus = (status) => {
         dispatch(setMyStatus(status));
       }
     });
+  };
+};
+export const saveProfile = (profile) => {
+  return async (dispatch,getState) => {
+   const userId= getState().auth.currentProfile.userId
+    let response = await usersAPI.saveProfile(profile)
+  if (response.data.resultCode === 0) {
+  dispatch(getAuth())}
+
   };
 };
 export default profileReducer;

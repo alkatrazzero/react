@@ -1,5 +1,6 @@
-import {usersAPI} from "../api/api";
 import {updateObjectInArray} from "../utilits/ojectHelpers";
+import {usersAPI} from "../api/api";
+
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
@@ -8,6 +9,7 @@ const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "FOLLOWING_IN_PROGRESS";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE"
+const LOAD_MORE = "LOAD_MORE"
 let initialState = {
   users: [],
   pageSize: 10,
@@ -17,17 +19,18 @@ let initialState = {
   followingInProgress: [],
 };
 
+
 const usersReduser = (state = initialState, action) => {
   switch (action.type) {
     case FOLLOW:
       return {
         ...state,
-       users: updateObjectInArray(state.users,"id",action.userId,{followed: true})
+        users: updateObjectInArray(state.users, "id", action.userId, {followed: true})
       };
     case UNFOLLOW:
       return {
         ...state,
-        users: updateObjectInArray(state.users,"id",action.userId,{followed: false})
+        users: updateObjectInArray(state.users, "id", action.userId, {followed: false})
       };
     case SET_USERS:
       return {...state, users: [...action.users]};
@@ -46,16 +49,18 @@ const usersReduser = (state = initialState, action) => {
       };
     case SET_PAGE_SIZE:
       return {...state, pageSize: action.size}
-
+    case LOAD_MORE:
+      return {...state, pageSize: state.pageSize + 10}
     default:
       return state;
   }
 };
-
+export const loadMore = () => {
+  return {type: LOAD_MORE}
+}
 export const followAccept = (userId) => {
   return {type: FOLLOW, userId};
 };
-
 export const unFollowAccept = (userId) => {
   return {type: UNFOLLOW, userId};
 };
@@ -85,7 +90,6 @@ export const getUsers = (currentPage, pageSize) => {
     dispatch(toggleIsFetching(false));
     dispatch(setUsers(response.items));
     dispatch(setTotalUsersCount(response.totalCount));
-
   };
 };
 export const follow = (userId) => {
@@ -111,4 +115,12 @@ export const unFollow = (userId) => {
 export const setPageSize = (size) => (dispatch) => {
   dispatch(currentPageSize(size));
 }
+export const loadMoreUsers = () => async (dispatch, getState) => {
+  dispatch(loadMore())
+  const pageSize = getState().usersPage.pageSize
+  const currentPage = getState().usersPage.currentPage
+  let response = await usersAPI.getUsers(currentPage, pageSize)
+  await dispatch(setUsers(response.items));
+}
+
 export default usersReduser;

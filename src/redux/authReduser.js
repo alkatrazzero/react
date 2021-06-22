@@ -1,6 +1,7 @@
 import {usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS"
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
 const SET_FORM_DATA = "SET_FORM_DATA";
@@ -36,10 +37,23 @@ const authReduser = (state = initialState, action) => {
       return {
         ...state, captchaUrl: action.URL
       }
+    case SAVE_PHOTO_SUCCESS: {
+      debugger
+      return {
+        ...state,
+        currentProfile: {...state.currentProfile, photos: action.file}
+      }
+    }
     default:
       return state;
   }
 };
+export const savePhotoSuccess = (file) => {
+  return {
+    type: SAVE_PHOTO_SUCCESS,
+    file: file,
+  }
+}
 export const setAuthUserData = (email, id, login, isAuth) => {
   return {type: SET_USER_DATA, data: {email, id, login, isAuth}};
 };
@@ -61,8 +75,6 @@ export const getAuth = () => {
         dispatch(setCurrentProfile(response.data));
       })
     }
-
-
   };
 
 };
@@ -92,5 +104,13 @@ export const logout = () => {
     });
   };
 }
+export const savePhoto = (file) => {
+  return async (dispatch) => {
+    let response = await usersAPI.savePhoto(file)
+    if (response.data.resultCode === 0) {
+      dispatch(savePhotoSuccess(response.data.data.photos));
+    }
+  };
+};
 
 export default authReduser;
