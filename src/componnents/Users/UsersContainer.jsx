@@ -4,7 +4,7 @@ import {
   unFollow,
   setCurrentPage,
   toggleFollowingInProgress,
-  getUsers, setPageSize, loadMoreUsers
+  getUsers, setPageSize, loadMoreUsers, setUsers
 } from "../../redux/usersReduser";
 import Users from "./Users";
 import React from "react";
@@ -25,9 +25,13 @@ class UsersContainer extends React.Component {
     this.props.getUsers(this.props.currentPage, this.props.pageSize);
   }
 
-  onPageChanged = (page, pageSize) => {
-    console.log(page, this.props.pageSize)
-    this.props.getUsers(page, pageSize);
+  onPageChanged = (page) => {
+    let pageSize = 10
+    this.props.setPageSize(pageSize)
+    this.props.getUsers(page, pageSize)
+
+
+
   };
 
 
@@ -78,7 +82,8 @@ export default compose(
     toggleFollowingInProgress,
     getUsers,
     setPageSize,
-    loadMoreUsers
+    loadMoreUsers,
+    setUsers
 
   }),
 )(UsersContainer);

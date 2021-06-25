@@ -83,15 +83,16 @@ export const login = (email, password, rememberMe, captcha) => {
     usersAPI.login(email, password, rememberMe, captcha).then((response) => {
       if (response.data.resultCode === 0) {
         dispatch(getAuth())
-      } else if (response.data.resultCode === 10) {
-        usersAPI.getCaptcha().then((response) => {
-          dispatch(getCaptchaUrl(response.data))
-        })
+        dispatch(getCaptchaUrl(1))
       } else {
+        if (response.data.resultCode === 10) {
+          usersAPI.getCaptcha().then((response) => {
+            dispatch(getCaptchaUrl(response.data))
+          })}
         let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
         dispatch(stopSubmit("login", {_error: message}));
       }
-    });
+    })
   };
 }
 export const logout = () => {

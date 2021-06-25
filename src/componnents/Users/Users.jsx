@@ -71,7 +71,7 @@ let Users = (props) => {
         </div>
       ))}
       <Pagination className={s.Pagination} onShowSizeChange={(i, e) => props.setPageSize(e)} pageSize={props.pageSize}
-                  current={props.currentPage} onChange={(page, pageSize) => props.onPageChanged(page, pageSize)}
+                  current={props.currentPage} onChange={(page) => props.onPageChanged(page)}
                   defaultCurrent={1} size={"small"}
                   total={props.totalUsersCount}/>
       <button onClick={props.loadMoreUsers} >more</button>
