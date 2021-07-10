@@ -1,11 +1,14 @@
 import {getAuth} from "./authReduser";
 
 const SET_INITIALIZED = "SET_INITIALIZED"
-let initialState = {
+export type InitialStateType={
+   initialized: boolean
+}
+let initialState:InitialStateType = {
     initialized: false,
 
 };
-const appReduser = (state = initialState, action) => {
+const appReduser = (state = initialState, action:any):InitialStateType => {
     switch (action.type) {
         case SET_INITIALIZED:
             return {
@@ -18,12 +21,14 @@ const appReduser = (state = initialState, action) => {
             return state;
     }
 };
-
-export const setInitialized = () => {
+type InitializedSuccessType={
+  type: typeof SET_INITIALIZED
+}
+export const setInitialized = ():InitializedSuccessType => {
     return {type: SET_INITIALIZED}
 }
 
-export const initializeApp = () => (dispatch) => {
+export const initializeApp = () => (dispatch:any) => {
 
    let promise= dispatch(getAuth());
      Promise.all([promise]).then(()=>{

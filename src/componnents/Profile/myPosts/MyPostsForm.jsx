@@ -16,8 +16,8 @@ const MyPostsForm = (props) => {
         <button> add post</button>
       </div>
     </form>
-  );
-};
+  )
+}
 export const MyPostsReduxForm = reduxForm({
   form: "myPosts",
 })(MyPostsForm);

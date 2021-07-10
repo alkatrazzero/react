@@ -7,23 +7,28 @@ import sitebarReducer from "./sitebarReducer";
 import usersReduser from "./usersReduser";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from "redux-form";
-import appReducer from "./appReducer";
+import appReducer from "./appReducer"
 
-let reducers = combineReducers({
-    profilePage: profileReducer,
-    messagesPage: messageReducer,
-    friends: friendsReducer,
-    sitebar: sitebarReducer,
-    usersPage: usersReduser,
-    auth: authReduser,
-    form: formReducer,
-    app: appReducer
-});
+
+let rootReducer = combineReducers({
+  profilePage: profileReducer,
+  messagesPage: messageReducer,
+  friends: friendsReducer,
+  sitebar: sitebarReducer,
+  usersPage: usersReduser,
+  auth: authReduser,
+  form: formReducer,
+  app: appReducer
+})
+type rootReducerType = typeof rootReducer;
+export type appStateType = ReturnType<rootReducerType>
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-    reducers,
-    composeEnhancers(applyMiddleware(thunkMiddleware))
-);
-// let store = createStore(reducers, applyMiddleware(thunkMiddleware));
-window.store = store;
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunkMiddleware)));
+// @ts-ignore
+window.__store__ = store;
+// @ts-ignore
 export default store;
+// @ts-ignore

@@ -14,6 +14,6 @@ const Post = (props) => {
         </span>
       </div>
     </div>
-  );
-};
+  )
+}
 export default Post;

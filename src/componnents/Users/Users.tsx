@@ -1,32 +1,34 @@
-import React from "react";
-import s from "./Users.module.css";
+import React, {FC} from "react";
+// @ts-ignore
+import * as s from "./Users.css.d.ts";
+// @ts-ignore
 import userPhoto from "../../assets/images/2.png";
 import {NavLink} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
 import {Input, Pagination} from 'antd'
-import {loadMoreUsers} from "../../redux/usersReduser";
-let Users = (props) => {
-  // const allFollowers = () => {
-  //   for (let i = 0; i < props.totalUsersCount; i++) {
-  //     props.setFollowers(i)
-  //   }}
-  // allFollowers()
-  const {Search} = Input;
-  const onSearch = value => console.log(value);
-  return (
-    <>{props.isFetching ? <Preloader/> : <div className={s.users}>
-      <div>
+import {usersType} from "../../types/types";
 
-        <Search className={s.Search}
-                placeholder="input search text"
-                allowClear
-                enterButton="Search"
-                size="small"
-                onSearch={onSearch}
-        />
-      </div>
-      {props.users.map((u) => (
-        <div key={u.id} className={s.container}>
+type PropsType = {
+  isFetching: boolean,
+  users: Array<usersType>,
+  isAuth: boolean,
+  followingInProgress: Array<number>
+  unFollow: (userId: number) => void,
+  follow: (userId: number) => void
+  setPageSize: (pageSize: number) => void
+  pageSize: number
+  currentPage: number
+  onPageChanged: (pageNumber: number) => void
+  totalUsersCount: number
+  loadMoreUsers: any
+}
+let Users: FC<PropsType> = (props) => {
+
+  // @ts-ignore
+  return (
+    <>{props.isFetching ? <Preloader/> : <div>
+      {props.users.map((u:any) => (
+        <div key={u.id}>
           <span>
             <div>
               <NavLink to={"/profile/" + u.id}>
@@ -39,7 +41,7 @@ let Users = (props) => {
             {props.isAuth ? <div>
               {u.followed ? (
                 <button
-                  disabled={props.followingInProgress.some((id) => id === u.id)}
+                  disabled={props.followingInProgress.some((id: number) => id === u.id)}
                   onClick={() => {
                     props.unFollow(u.id);
                   }}
@@ -48,7 +50,7 @@ let Users = (props) => {
                 </button>
               ) : (
                 <button
-                  disabled={props.followingInProgress.some((id) => id === u.id)}
+                  disabled={props.followingInProgress.some((id: number) => id === u.id)}
                   onClick={() => {
                     props.follow(u.id);
                   }}
@@ -59,22 +61,22 @@ let Users = (props) => {
             </div> : null}
           </span>
           <span>
-            <span className={s.status}>
+            <span >
               <div>{u.name}</div>
               <div>{u.status}</div>
             </span>
             <span>
-              <div className={s.location}>{"u.location.country"}</div>
-              <div className={s.location}>{"u.location.city"}</div>
+              <div>{"u.location.country"}</div>
+              <div>{"u.location.city"}</div>
             </span>
           </span>
         </div>
       ))}
-      <Pagination className={s.Pagination} onShowSizeChange={(i, e) => props.setPageSize(e)} pageSize={props.pageSize}
+      <Pagination onShowSizeChange={(i, e) => props.setPageSize(e)} pageSize={props.pageSize}
                   current={props.currentPage} onChange={(page) => props.onPageChanged(page)}
                   defaultCurrent={1} size={"small"}
                   total={props.totalUsersCount}/>
-      <button onClick={props.loadMoreUsers} >more</button>
+      <button onClick={props.loadMoreUsers}>more</button>
     </div>}
     </>
   );

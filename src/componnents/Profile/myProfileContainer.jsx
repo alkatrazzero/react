@@ -4,29 +4,26 @@ import {withRouter} from "react-router";
 import {getAuth, savePhoto} from "../../redux/authReduser";
 import {toggleIsFetching} from "../../redux/usersReduser";
 import {compose} from "redux";
-import MyProfile from "./myProfile";
-import Preloader from "../common/Preloader/Preloader";
 import {getMyStatus, saveProfile, updateStatus} from "../../redux/profileReducer";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import Preloader from "../common/Preloader/Preloader";
+import MyProfile from "./myProfile";
 
-class MyProfileContainer extends React.Component {
-
-  render = () => {
-    return (
+function MyProfileContainer(props) {
+  return (
       <>
-        <div>{this.props.isFetching ? <Preloader/> : null}</div>
+        <div>{props.isFetching ? <Preloader/> : null}</div>
         <MyProfile
-          {...this.props}
+          {...props}
 
-          currentProfile={this.props.currentProfile}
-          myStatus={this.props.myStatus}
-          updateStatus={this.props.updateStatus}
-          getMyStatus={this.props.getMyStatus}
-          savePhoto={this.props.savePhoto}
+          currentProfile={props.currentProfile}
+          myStatus={props.myStatus}
+          updateStatus={props.updateStatus}
+          getMyStatus={props.getMyStatus}
+          savePhoto={props.savePhoto}
         />
       </>
     );
-  };
 }
 
 let mapStateToProps = (state) => ({

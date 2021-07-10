@@ -1,5 +1,6 @@
 import {updateObjectInArray} from "../utilits/ojectHelpers";
 import {usersAPI} from "../api/api";
+import {PhotosType, usersType} from "../types/types";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -10,17 +11,18 @@ const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "FOLLOWING_IN_PROGRESS";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE"
 const LOAD_MORE = "LOAD_MORE"
+
 let initialState = {
-  users: [],
+  users: [] as Array<usersType>,
   pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: false,
-  followingInProgress: [],
+  followingInProgress: [] as Array<number>, // array of users ids
 };
+type initialStateType = typeof initialState;
 
-
-const usersReduser = (state = initialState, action) => {
+const usersReduser = (state = initialState, action: ActionTypes): initialStateType => {
   switch (action.type) {
     case FOLLOW:
       return {
@@ -44,8 +46,8 @@ const usersReduser = (state = initialState, action) => {
       return {
         ...state,
         followingInProgress: action.isFetching
-          ? [...state.followingInProgress, action.Id]
-          : [...state.followingInProgress.filter((Id) => Id !== action.Id)],
+          ? [...state.followingInProgress, action.id]
+          : [...state.followingInProgress.filter((Id) => Id !== action.id)],
       };
     case SET_PAGE_SIZE:
       return {...state, pageSize: action.size}
@@ -55,35 +57,83 @@ const usersReduser = (state = initialState, action) => {
       return state;
   }
 };
-export const loadMore = () => {
+type ActionTypes =
+  loadMoreType
+  | followAcceptType
+  | unFollowAcceptType
+  | setUsersType
+  | setCurrentPageType
+  | setTotalUsersCountType
+  | toggleIsFetchingType
+  | toggleFollowingInProgressType
+  | currentPageSizeType
+
+
+type loadMoreType = {
+  type: typeof LOAD_MORE,
+}
+export const loadMore = (): loadMoreType => {
   return {type: LOAD_MORE}
 }
-export const followAccept = (userId) => {
+type followAcceptType = {
+  type: typeof FOLLOW
+  userId: number
+}
+export const followAccept = (userId: number): followAcceptType => {
   return {type: FOLLOW, userId};
 };
-export const unFollowAccept = (userId) => {
+type unFollowAcceptType = {
+  type: typeof UNFOLLOW
+  userId: number
+}
+export const unFollowAccept = (userId: number): unFollowAcceptType => {
   return {type: UNFOLLOW, userId};
 };
-export const setUsers = (users) => {
+type setUsersType = {
+  type: typeof SET_USERS
+  users: Array<usersType>
+}
+export const setUsers = (users: Array<usersType>): setUsersType => {
   return {type: SET_USERS, users};
 };
-export const setCurrentPage = (currentPage) => {
+type setCurrentPageType = {
+  type: typeof SET_CURRENT_PAGE
+  currentPage: number
+}
+export const setCurrentPage = (currentPage: number): setCurrentPageType => {
   return {type: SET_CURRENT_PAGE, currentPage};
 };
-export const setTotalUsersCount = (totalCount) => {
+type setTotalUsersCountType = {
+  type: typeof SET_TOTAL_USERS_COUNT
+  totalCount: number
+}
+export const setTotalUsersCount = (totalCount: number): setTotalUsersCountType => {
   return {type: SET_TOTAL_USERS_COUNT, totalCount};
 };
-export const toggleIsFetching = (isFetching) => {
+type toggleIsFetchingType = {
+  type: typeof TOGGLE_IS_FETCHING
+  isFetching: boolean
+}
+export const toggleIsFetching = (isFetching: boolean): toggleIsFetchingType => {
   return {type: TOGGLE_IS_FETCHING, isFetching};
 };
-export const toggleFollowingInProgress = (isFetching, Id) => {
-  return {type: FOLLOWING_IN_PROGRESS, isFetching, Id};
+type toggleFollowingInProgressType = {
+  type: typeof FOLLOWING_IN_PROGRESS
+  isFetching: boolean
+  id: number
+}
+export const toggleFollowingInProgress = (isFetching: boolean, id: number): toggleFollowingInProgressType => {
+  return {type: FOLLOWING_IN_PROGRESS, isFetching, id};
 };
-export const currentPageSize = (size) => {
+type currentPageSizeType = {
+  type: typeof SET_PAGE_SIZE
+  size: number
+}
+export const currentPageSize = (size: number): currentPageSizeType => {
   return {type: SET_PAGE_SIZE, size}
 }
-export const getUsers = (currentPage, pageSize) => {
-  return async (dispatch) => {
+export const getUsers = (currentPage: number, pageSize: number) => {
+  return async (dispatch: any) => {
     dispatch(setCurrentPage(currentPage));
     dispatch(toggleIsFetching(true));
     let response = await usersAPI.getUsers(currentPage, pageSize)
@@ -92,8 +142,8 @@ export const getUsers = (currentPage, pageSize) => {
     dispatch(setTotalUsersCount(response.totalCount));
   };
 };
-export const follow = (userId) => {
-  return async (dispatch) => {
+export const follow = (userId: number) => {
+  return async (dispatch: any) => {
     dispatch(toggleFollowingInProgress(true, userId));
     let response = await usersAPI.follow(userId)
     if (response.resultCode === 0) {
@@ -102,8 +152,8 @@ export const follow = (userId) => {
     dispatch(toggleFollowingInProgress(false, userId));
   };
 };
-export const unFollow = (userId) => {
-  return async (dispatch) => {
+export const unFollow = (userId: number) => {
+  return async (dispatch: any) => {
     dispatch(toggleFollowingInProgress(true, userId));
     let response = await usersAPI.unFollow(userId)
     if (response.resultCode === 0) {
@@ -112,10 +162,10 @@ export const unFollow = (userId) => {
     dispatch(toggleFollowingInProgress(false, userId));
   };
 };
-export const setPageSize = (size) => (dispatch) => {
+export const setPageSize = (size: number) => (dispatch: any) => {
   dispatch(currentPageSize(size));
 }
-export const loadMoreUsers = () => async (dispatch, getState) => {
+export const loadMoreUsers = () => async (dispatch: any, getState: any) => {
   dispatch(loadMore())
   const pageSize = getState().usersPage.pageSize
   const currentPage = getState().usersPage.currentPage

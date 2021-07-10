@@ -43,7 +43,7 @@ class App extends React.Component {
               render={() => <FriendsContainer/>}
             />
              <Route exact path={"/MyProfile"} render={() => <MyProfileContainer/>}/>
-            <Route path="/Users" render={() => <UsersContainer/>}/>
+            <Route path="/Users" render={() => <UsersContainer pageTitle={"samurai"}/>}/>
             <Route path={"/Login"} render={() => <LoginContainer/>}/>
             <Route path="*" render={() => <div>404</div>}/>
           </Switch>

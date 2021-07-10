@@ -18,7 +18,7 @@ const MyPosts = React.memo(props => {
       <MyPostsReduxForm onSubmit={onSubmit}/>
       <div className={s.posts}>{postsElements}</div>
     </div>
-  );
+  )
 })
 
 

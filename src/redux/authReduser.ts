@@ -6,7 +6,17 @@ const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
 const SET_FORM_DATA = "SET_FORM_DATA";
 const GET_CAPTCHA_URL = 'GET_CAPTCHA_URL'
-let initialState = {
+export type InitialStateType = {
+  id: number | null,
+  email: string | null,
+  login: string | null,
+  isFetching: boolean,
+  isAuth: boolean,
+  currentProfile: object | null,
+  captchaUrl: string | null
+
+}
+let initialState: InitialStateType = {
   id: null,
   email: null,
   login: null,
@@ -15,7 +25,7 @@ let initialState = {
   currentProfile: null,
   captchaUrl: null
 };
-const authReduser = (state = initialState, action) => {
+const authReduser = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case SET_USER_DATA:
       return {
@@ -31,7 +41,7 @@ const authReduser = (state = initialState, action) => {
     case SET_FORM_DATA:
       return {
         ...state,
-        formData: action.formData,
+        // formData: action.formData,
       };
     case GET_CAPTCHA_URL :
       return {
@@ -48,24 +58,35 @@ const authReduser = (state = initialState, action) => {
       return state;
   }
 };
-export const savePhotoSuccess = (file) => {
+export const savePhotoSuccess = (file:any) => {
   return {
     type: SAVE_PHOTO_SUCCESS,
     file: file,
   }
 }
-export const setAuthUserData = (email, id, login, isAuth) => {
+type SetAuthUserDataActionDataType = {
+  email: string | null, id: number | null, login: string | null, isAuth: boolean
+}
+type SetAuthUserDataActionType = {
+  type: typeof SET_USER_DATA
+  data: SetAuthUserDataActionDataType
+}
+export const setAuthUserData = (email: string | null, id: number | null, login: string | null, isAuth: boolean): SetAuthUserDataActionType => {
   return {type: SET_USER_DATA, data: {email, id, login, isAuth}};
 };
-export const setCurrentProfile = (currentProfile) => {
+export const setCurrentProfile = (currentProfile: object) => {
   return {type: SET_CURRENT_PROFILE, currentProfile};
 };
-export const getCaptchaUrl = (URL) => {
+type getCaptchaUrlActionType = {
+  type: typeof GET_CAPTCHA_URL
+  URL: any
+}
+export const getCaptchaUrl = (URL: any): getCaptchaUrlActionType => {
   return {type: GET_CAPTCHA_URL, URL}
 }
 
 export const getAuth = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     let response = await usersAPI.getAuth()
 
     if (response.data.resultCode === 0) {
@@ -78,17 +99,18 @@ export const getAuth = () => {
   };
 
 };
-export const login = (email, password, rememberMe, captcha) => {
-  return (dispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string) => {
+  return (dispatch: any) => {
     usersAPI.login(email, password, rememberMe, captcha).then((response) => {
       if (response.data.resultCode === 0) {
         dispatch(getAuth())
-        dispatch(getCaptchaUrl(1))
+        dispatch(getCaptchaUrl(null))
       } else {
         if (response.data.resultCode === 10) {
           usersAPI.getCaptcha().then((response) => {
             dispatch(getCaptchaUrl(response.data))
-          })}
+          })
+        }
         let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
         dispatch(stopSubmit("login", {_error: message}));
       }
@@ -96,7 +118,7 @@ export const login = (email, password, rememberMe, captcha) => {
   };
 }
 export const logout = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     usersAPI.logout().then((response) => {
       if (response.data.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false));
@@ -105,8 +127,8 @@ export const logout = () => {
     });
   };
 }
-export const savePhoto = (file) => {
-  return async (dispatch) => {
+export const savePhoto = (file:any) => {
+  return async (dispatch: any) => {
     let response = await usersAPI.savePhoto(file)
     if (response.data.resultCode === 0) {
       dispatch(savePhotoSuccess(response.data.data.photos));

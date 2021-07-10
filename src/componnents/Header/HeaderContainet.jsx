@@ -4,7 +4,7 @@ import {
  logout,
   setAuthUserData,
   setCurrentProfile,
-} from "../../redux/authReduser";
+} from "../../redux/authReduser"
 import Header from "./Header";
 import "./Header.module.css";
 
