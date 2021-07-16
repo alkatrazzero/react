@@ -1,4 +1,4 @@
-import {usersAPI} from "../api/api";
+import {ResultCodesEnum, usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
 const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS"
@@ -58,7 +58,7 @@ const authReduser = (state = initialState, action: any): InitialStateType => {
       return state;
   }
 };
-export const savePhotoSuccess = (file:any) => {
+export const savePhotoSuccess = (file: any) => {
   return {
     type: SAVE_PHOTO_SUCCESS,
     file: file,
@@ -87,34 +87,31 @@ export const getCaptchaUrl = (URL: any): getCaptchaUrlActionType => {
 
 export const getAuth = () => {
   return async (dispatch: any) => {
-    let response = await usersAPI.getAuth()
-
-    if (response.data.resultCode === 0) {
-      let {email, id, login} = response.data.data;
+    let meData = await usersAPI.getAuth()
+    if (meData.resultCode === ResultCodesEnum.success) {
+      let {email, id, login} = meData.data;
       dispatch(setAuthUserData(email, id, login, true));
-      usersAPI.getCurrentProfileId(response.data.data.id).then((response) => {
+      usersAPI.getCurrentProfileId(meData.data.id).then((response) => {
         dispatch(setCurrentProfile(response.data));
       })
     }
   };
-
 };
 export const login = (email: string, password: string, rememberMe: boolean, captcha: string) => {
-  return (dispatch: any) => {
-    usersAPI.login(email, password, rememberMe, captcha).then((response) => {
-      if (response.data.resultCode === 0) {
-        dispatch(getAuth())
-        dispatch(getCaptchaUrl(null))
-      } else {
-        if (response.data.resultCode === 10) {
-          usersAPI.getCaptcha().then((response) => {
-            dispatch(getCaptchaUrl(response.data))
-          })
-        }
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
-        dispatch(stopSubmit("login", {_error: message}));
+  return async (dispatch: any) => {
+    let loginData = await usersAPI.login(email, password, rememberMe, captcha)
+    if (loginData.resultCode === ResultCodesEnum.success) {
+      dispatch(getAuth())
+      dispatch(getCaptchaUrl(null))
+    } else {
+      if (loginData.resultCode === ResultCodesEnum.CaptchaIsRequired) {
+        usersAPI.getCaptcha().then((response) => {
+          dispatch(getCaptchaUrl(response.data))
+        })
       }
-    })
+      let message = loginData.messages.length > 0 ? loginData.messages[0] : "some error"
+      dispatch(stopSubmit("login", {_error: message}));
+    }
   };
 }
 export const logout = () => {
@@ -127,7 +124,7 @@ export const logout = () => {
     });
   };
 }
-export const savePhoto = (file:any) => {
+export const savePhoto = (file: any) => {
   return async (dispatch: any) => {
     let response = await usersAPI.savePhoto(file)
     if (response.data.resultCode === 0) {

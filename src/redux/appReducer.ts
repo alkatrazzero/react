@@ -1,4 +1,6 @@
 import {getAuth} from "./authReduser";
+import {Dispatch} from "redux";
+import {appStateType} from "./reduxStore";
 
 const SET_INITIALIZED = "SET_INITIALIZED"
 export type InitialStateType={
@@ -6,17 +8,17 @@ export type InitialStateType={
 }
 let initialState:InitialStateType = {
     initialized: false,
-
 };
-const appReduser = (state = initialState, action:any):InitialStateType => {
+type ActionTypes =
+  InitializedSuccessType
+
+const appReduser = (state = initialState, action:ActionTypes):InitialStateType => {
     switch (action.type) {
         case SET_INITIALIZED:
             return {
                 ...state,
                 initialized: true,
-
             };
-
         default:
             return state;
     }
@@ -28,7 +30,7 @@ export const setInitialized = ():InitializedSuccessType => {
     return {type: SET_INITIALIZED}
 }
 
-export const initializeApp = () => (dispatch:any) => {
+export const initializeApp = () => (dispatch:any, getState:()=>appStateType) => {
 
    let promise= dispatch(getAuth());
      Promise.all([promise]).then(()=>{

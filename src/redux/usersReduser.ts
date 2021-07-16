@@ -1,6 +1,8 @@
 import {updateObjectInArray} from "../utilits/ojectHelpers";
 import {usersAPI} from "../api/api";
 import {PhotosType, usersType} from "../types/types";
+import {appStateType} from "./reduxStore";
+import {Dispatch} from "redux";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -11,6 +13,7 @@ const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "FOLLOWING_IN_PROGRESS";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE"
 const LOAD_MORE = "LOAD_MORE"
+const SET_FILTER = "SET_FILTER"
 
 let initialState = {
   users: [] as Array<usersType>,
@@ -19,7 +22,12 @@ let initialState = {
   currentPage: 1,
   isFetching: false,
   followingInProgress: [] as Array<number>, // array of users ids
+  filter: {
+    term: '',
+    friend:null as null|boolean
+  }
 };
+export type FilterType = typeof initialState.filter
 type initialStateType = typeof initialState;
 
 const usersReduser = (state = initialState, action: ActionTypes): initialStateType => {
@@ -53,6 +61,11 @@ const usersReduser = (state = initialState, action: ActionTypes): initialStateTy
       return {...state, pageSize: action.size}
     case LOAD_MORE:
       return {...state, pageSize: state.pageSize + 10}
+    case SET_FILTER:
+      return {
+        ...state,filter:action.payload
+      }
+
     default:
       return state;
   }
@@ -67,6 +80,7 @@ type ActionTypes =
   | toggleIsFetchingType
   | toggleFollowingInProgressType
   | currentPageSizeType
+  | setFilterType
 
 
 type loadMoreType = {
@@ -132,18 +146,30 @@ type currentPageSizeType = {
 export const currentPageSize = (size: number): currentPageSizeType => {
   return {type: SET_PAGE_SIZE, size}
 }
-export const getUsers = (currentPage: number, pageSize: number) => {
-  return async (dispatch: any) => {
+type setFilterType = {
+  type: typeof SET_FILTER
+  payload:FilterType
+}
+export const setFilter = (filter:FilterType): setFilterType => {
+  return {
+    type: SET_FILTER,
+    payload:filter
+  }
+
+}
+export const getUsers = (currentPage: number, pageSize: number, filter:FilterType) => {
+  return async (dispatch: Dispatch<ActionTypes>, getState: () => appStateType) => {
+    dispatch(setFilter(filter))
     dispatch(setCurrentPage(currentPage));
     dispatch(toggleIsFetching(true));
-    let response = await usersAPI.getUsers(currentPage, pageSize)
+    let response = await usersAPI.getUsers(currentPage, pageSize, filter.term,filter.friend)
     dispatch(toggleIsFetching(false));
     dispatch(setUsers(response.items));
     dispatch(setTotalUsersCount(response.totalCount));
   };
 };
 export const follow = (userId: number) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch<ActionTypes>, getState: () => appStateType) => {
     dispatch(toggleFollowingInProgress(true, userId));
     let response = await usersAPI.follow(userId)
     if (response.resultCode === 0) {
@@ -153,7 +179,7 @@ export const follow = (userId: number) => {
   };
 };
 export const unFollow = (userId: number) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch<ActionTypes>, getState: () => appStateType) => {
     dispatch(toggleFollowingInProgress(true, userId));
     let response = await usersAPI.unFollow(userId)
     if (response.resultCode === 0) {
@@ -162,10 +188,10 @@ export const unFollow = (userId: number) => {
     dispatch(toggleFollowingInProgress(false, userId));
   };
 };
-export const setPageSize = (size: number) => (dispatch: any) => {
+export const setPageSize = (size: number) => (dispatch: Dispatch<ActionTypes>) => {
   dispatch(currentPageSize(size));
 }
-export const loadMoreUsers = () => async (dispatch: any, getState: any) => {
+export const loadMoreUsers = () => async (dispatch: Dispatch<ActionTypes>, getState: () => appStateType) => {
   dispatch(loadMore())
   const pageSize = getState().usersPage.pageSize
   const currentPage = getState().usersPage.currentPage

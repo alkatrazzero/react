@@ -5,8 +5,10 @@ import * as s from "./Users.css.d.ts";
 import userPhoto from "../../assets/images/2.png";
 import {NavLink} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
-import {Input, Pagination} from 'antd'
-import {usersType} from "../../types/types";
+import {Pagination} from 'antd'
+import {usersType} from "../../types/types"
+import {UsersSearchForm} from "./UsersSearchForm";
+import {FilterType} from "../../redux/usersReduser";
 
 type PropsType = {
   isFetching: boolean,
@@ -21,14 +23,19 @@ type PropsType = {
   onPageChanged: (pageNumber: number) => void
   totalUsersCount: number
   loadMoreUsers: any
+  onFilterChanged:(filter:FilterType)=>void
 }
 let Users: FC<PropsType> = (props) => {
 
   // @ts-ignore
   return (
     <>{props.isFetching ? <Preloader/> : <div>
-      {props.users.map((u:any) => (
+
+      <div><UsersSearchForm onFilterChanged={props.onFilterChanged} /></div>
+
+      {props.users.map((u: any) => (
         <div key={u.id}>
+
           <span>
             <div>
               <NavLink to={"/profile/" + u.id}>
@@ -61,7 +68,7 @@ let Users: FC<PropsType> = (props) => {
             </div> : null}
           </span>
           <span>
-            <span >
+            <span>
               <div>{u.name}</div>
               <div>{u.status}</div>
             </span>
@@ -83,3 +90,5 @@ let Users: FC<PropsType> = (props) => {
 
 };
 export default Users;
+
+
