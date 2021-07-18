@@ -5,7 +5,7 @@ import Music from "./componnents/Music/Music";
 import Nav from "./componnents/Nav/Nav";
 import News from "./componnents/News/News";
 import {Route, Switch} from "react-router-dom";
-import UsersContainer from "./componnents/users/UsersContainer";
+import UsersContainer, {UsersPage} from "./componnents/users/UsersContainer";
 import ProfileContainer from "./componnents/Profile/ProfileContainer";
 import HeaderContainer from "./componnents/Header/HeaderContainet";
 import MyProfileContainer from "./componnents/Profile/myProfileContainer";
@@ -43,7 +43,7 @@ class App extends React.Component {
               render={() => <FriendsContainer/>}
             />
              <Route exact path={"/MyProfile"} render={() => <MyProfileContainer/>}/>
-            <Route path="/Users" render={() => <UsersContainer pageTitle={"samurai"}/>}/>
+            <Route path="/Users" render={() => <UsersPage pageTitle={"samurai"}/>}/>
             <Route path={"/Login"} render={() => <LoginContainer/>}/>
             <Route path="*" render={() => <div>404</div>}/>
           </Switch>

@@ -11,7 +11,7 @@ export const getPageSize = (state:appStateType) => {
 export const getTotalUsersCount = (state:appStateType) => {
   return state.usersPage.totalUsersCount
 }
-export const getUserPage = (state:appStateType) => {
+export const getCurrentPage = (state:appStateType) => {
   return state.usersPage.currentPage
 }
 export const getFetching = (state:appStateType) => {
@@ -22,4 +22,7 @@ export const getFollowingInProgress = (state:appStateType) => {
 }
 export const getUsersFilter =(state:appStateType)=>{
   return state.usersPage.filter
+}
+export const getIsAuthData = (state:appStateType)=>{
+  return state.auth.isAuth
 }

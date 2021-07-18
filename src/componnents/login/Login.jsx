@@ -1,22 +1,26 @@
 import React from "react";
-import { LoginReduxForm } from "./LoginForm";
-import {connect} from "react-redux";
+import {LoginReduxForm} from "./LoginForm";
+import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/authReduser";
 import {Redirect} from "react-router";
-const Login = (props) => {
 
+
+export const Login = (props) => {
+  const captchaUrl = useSelector(state => state.auth.captchaUrl)
+  const isAuth = useSelector(state => state.auth.isAuth)
+  const dispatch = useDispatch()
   const onSubmit = (formData) => {
-    props.login(formData.login,formData.password,formData.rememberMe,formData.captcha);
+    dispatch(login(formData.login, formData.password, formData.rememberMe, formData.captcha));
 
   };
-  if(props.isAuth){
-    return <Redirect to ="/MyProfile"/>
+  if (isAuth) {
+    return <Redirect to="/MyProfile"/>
   }
   return (
     <div>
       <h1>login</h1>
-      <LoginReduxForm captchaUrl={props.captchaUrl} onSubmit={onSubmit} />
+      <LoginReduxForm captchaUrl={captchaUrl} onSubmit={onSubmit}/>
     </div>
   );
 };
-export default connect(null,{login})(Login);
+
