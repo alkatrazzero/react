@@ -5,13 +5,14 @@ import {
   setAuthUserData,
   setCurrentProfile,
 } from "../../redux/authReduser"
-import Header from "./Header";
+
 import "./Header.module.css";
+import {AppHeader} from "./Header";
 
 class HeaderContainer extends React.Component {
 
   render() {
-    return <Header {...this.props} />;
+    return <AppHeader {...this.props} />;
   }
 }
 let mapStateToProps = (state) => ({

@@ -1,41 +1,86 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 // @ts-ignore
 import * as s from "./Users.css.d.ts";
 // @ts-ignore
 import userPhoto from "../../assets/images/2.png";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
 import {Pagination} from 'antd'
-import {usersType} from "../../types/types"
 import {UsersSearchForm} from "./UsersSearchForm";
-import {FilterType} from "../../redux/usersReduser";
+import {FilterType, follow, getUsers, loadMoreUsers, setPageSize, unFollow} from "../../redux/usersReduser";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  getCurrentPage, getFetching, getFollowingInProgress, getIsAuthData,
+  getPageSize,
+  getTotalUsersCount,
+  getUsersFilter,
+  getUsersState
+} from "../../redux/usersSelectors";
+import * as queryString from "querystring";
 
-type PropsType = {
-  isFetching: boolean,
-  users: Array<usersType>,
-  isAuth: boolean,
-  followingInProgress: Array<number>
-  unFollow: (userId: number) => void,
-  follow: (userId: number) => void
-  setPageSize: (pageSize: number) => void
-  pageSize: number
-  currentPage: number
-  onPageChanged: (pageNumber: number) => void
-  totalUsersCount: number
-  loadMoreUsers: any
-  onFilterChanged:(filter:FilterType)=>void
-}
-let Users: FC<PropsType> = (props) => {
+type PropsType = {}
+export const Users: FC<PropsType> = (props) => {
+  const history = useHistory()
+  const isAuth = useSelector(getIsAuthData)
+  const totalUsersCount = useSelector(getTotalUsersCount)
+  const currentPage = useSelector(getCurrentPage)
+  const pageSize = useSelector(getPageSize)
+  const onPageChanged = (page: number) => {
+    let pageSize = 10
+    dispatch(setPageSize(10))
+    dispatch(getUsers(page, 10, filter))
+  }
+  const onFilterChange = (filter: FilterType) => {
+    dispatch(getUsers(1, pageSize, filter));
+  }
+  const filter = useSelector(getUsersFilter)
+  const isFetching = useSelector(getFetching)
+  const users = useSelector(getUsersState)
+  const followingInProgress = useSelector(getFollowingInProgress)
+  const loadMoreUsersDispatch = () => {
+    dispatch(loadMoreUsers())
+  }
+  const setPageSizeDispatch = (size: number) => {
+    dispatch(setPageSize(size))
+  }
+  const followDispatch = (userId: number) => {
+    dispatch(follow(userId))
+  }
+  const unFollowDispatch = (userId: number) => {
+    dispatch(unFollow(userId))
+  }
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    const parsed = queryString.parse(history.location.search.substr(1))
+    let actualPage = currentPage
+    let actualFilter = filter
+    if (!!parsed.page) actualPage = Number(parsed.page)
+    if (!!parsed.term) actualFilter = {...actualFilter, term: parsed.term as string}
+    if (!!parsed.friend) actualFilter = {
+      ...actualFilter,
+      friend: parsed.friend === 'null' ? null : parsed.friend === 'true' ? true : false
+    }
+    dispatch(getUsers(actualPage, 10, actualFilter))
+  }, []);
+ useEffect(() => {
+   const query:any ={}
+   if(!!filter.term) query.term =filter.term
+    if(filter.friend!==null) query.friend =String(filter.friend)
+    if(currentPage!==1) query.page =String(currentPage)
+    history.push({
+      pathname:'/users',
+      search:queryString.stringify(query)
+    })
+  }, [filter,currentPage]);
 
   // @ts-ignore
   return (
-    <>{props.isFetching ? <Preloader/> : <div>
-
-      <div><UsersSearchForm onFilterChanged={props.onFilterChanged} /></div>
-
-      {props.users.map((u: any) => (
+    <>{isFetching ? <Preloader/> : <div>
+      <div><UsersSearchForm onFilterChanged={onFilterChange}/></div>
+      {users.map((u: any) => (
         <div key={u.id}>
-
           <span>
             <div>
               <NavLink to={"/profile/" + u.id}>
@@ -45,21 +90,21 @@ let Users: FC<PropsType> = (props) => {
                 />
               </NavLink>
             </div>
-            {props.isAuth ? <div>
+            {isAuth ? <div>
               {u.followed ? (
                 <button
-                  disabled={props.followingInProgress.some((id: number) => id === u.id)}
+                  disabled={followingInProgress.some((id: number) => id === u.id)}
                   onClick={() => {
-                    props.unFollow(u.id);
+                    unFollowDispatch(u.id);
                   }}
                 >
                   Unfollow
                 </button>
               ) : (
                 <button
-                  disabled={props.followingInProgress.some((id: number) => id === u.id)}
+                  disabled={followingInProgress.some((id: number) => id === u.id)}
                   onClick={() => {
-                    props.follow(u.id);
+                    followDispatch(u.id);
                   }}
                 >
                   follow
@@ -79,16 +124,16 @@ let Users: FC<PropsType> = (props) => {
           </span>
         </div>
       ))}
-      <Pagination onShowSizeChange={(i, e) => props.setPageSize(e)} pageSize={props.pageSize}
-                  current={props.currentPage} onChange={(page) => props.onPageChanged(page)}
+      <Pagination onShowSizeChange={(i, e) => setPageSizeDispatch(e)} pageSize={pageSize}
+                  current={currentPage} onChange={(page) => onPageChanged(page)}
                   defaultCurrent={1} size={"small"}
-                  total={props.totalUsersCount}/>
-      <button onClick={props.loadMoreUsers}>more</button>
+                  total={totalUsersCount}/>
+      <button onClick={loadMoreUsersDispatch}>more</button>
     </div>}
     </>
   );
 
 };
-export default Users;
+
 
 

@@ -1,4 +1,4 @@
-import 'antd/dist/antd.css'
+
 import reportWebVitals from "./reportWebVitals";
 import store from "./redux/reduxStore";
 import React from "react";
